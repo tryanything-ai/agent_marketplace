@@ -20,10 +20,10 @@ Never again.
 
 People don't like crypto. Crypto is hard to use. The goal is to have the simplest protocol possible for our goals not some massively convoluded system. The purpose is a database of apps everyone can use and no one has control over.
 
-#### We should aim to add value where its makes natural sense at a global and does not make sense at a local level.
+#### We should aim to create value where it makes natural sense at the protocol level where it is not easy for individuals to provide it.
 
-- Running agents on-chain? NOT our thing
-- Reviews on chain? Probably our thing
+- Running agents on-chain? NOT our thing.
+- Reviews on chain? Probably our thing.
 - Agent payments on chain? Our thing if people want it.
 
-- Listing, Listing Management, Discovery and Integration tools? ==Definetely our thing==.
+- Listing, Listing Management, Discovery and Integration tools? <u>Definetely our thing</u>.
