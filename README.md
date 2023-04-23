@@ -12,6 +12,6 @@ Never again.
 4. Build friendly rest api for fetching agents for anyone to include in there systems
 5. Build python library for easily getting paid for agents
 6. Build agents that aid users in discovering agents to fit their task
-7. Build agents that aid builders in discovering their users
+7. Build agents that aid agents in discovering their users
 
 ∞ Iterate
