@@ -15,3 +15,15 @@ Never again.
 7. Build agents that aid agents in discovering their users
 
 ∞ Iterate
+
+## Guiding Thoughts
+
+People don't like crypto. Crypto is hard to use. The goal is to have the simplest protocol possible for our goals not some massively convoluded system. The purpose is a database of apps everyone can use and no one has control over.
+
+#### We should aim to add value where its makes natural sense at a global and does not make sense at a local level.
+
+- Running agents on-chain? NOT our thing
+- Reviews on chain? Probably our thing
+- Agent payments on chain? Our thing if people want it.
+
+- Listing, Listing Management, Discovery and Integration tools? ==Definetely our thing==.
