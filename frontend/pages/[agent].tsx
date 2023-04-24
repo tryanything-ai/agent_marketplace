@@ -52,7 +52,7 @@ const Agent = () => {
     );
 
   return (
-    <Layout cta="Remix Agent" href="/create">
+    <Layout>
       <Container className="mt-32 pb-10">
         <div className="flex flex-col w-full border-opacity-50">
           <div className="h-40 card bg-base-300 rounded-box flex flex-row">

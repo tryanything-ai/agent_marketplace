@@ -2,15 +2,7 @@ import Head from "next/head";
 import { NextSeo } from "next-seo";
 import Navbar from "./navbar";
 
-const Layout = ({
-  children,
-  cta = "List Agent",
-  href = "/add",
-}: {
-  children: any;
-  cta?: string;
-  href?: string;
-}) => {
+const Layout = ({ children }: { children: any }) => {
   return (
     <div className="min-h-screen min-w-screen flex flex-col">
       <Head>
@@ -43,7 +35,7 @@ const Layout = ({
         }}
       />
 
-      <Navbar cta={cta} href={href} />
+      <Navbar />
       <main className="flex-1">{children}</main>
       <footer className="h-32 text-center">
         Bugs? Want to talk?{" "}
