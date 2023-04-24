@@ -7,23 +7,28 @@ Never again.
 ### Plan
 
 1. Create Database of AI Agents.
-2. Build friendly rest api for fetching agents for anyone to include in there systems
-3. Build and deploy base marketplace protocol to Sui Mainnet May 3, 2023
+2. Build friendly API for anyone to integrate agent discovery and listing into their systems.
+3. Build and deploy base marketplace protocol to Sui Mainnet May 2023.
 4. Onboard web2 Database onto web3 protocol.
-5. Build python library for easily getting paid for agents
-6. Build agents that aid users in discovering agents to fit their task
-7. Build agents that aid agents in discovering their users
+5. Integrate payments for agents into base protocol.
+6. Build python library for easily getting paid for agents.
+7. Integrate reviews into base protocol.
+8. Make all protocol functionality available via easy API.
 
 ∞ Iterate
 
 ### Guiding Thoughts
 
-People don't like crypto. Crypto is hard to use. The goal is to have the simplest protocol possible for our goals not some massively convoluded system. The purpose is a database of apps everyone can use and no one has control over.
+People don't like crypto. Crypto is hard to use. The goal is to have the simplest system possible for our goals not some massively complex system.
+
+The purpose is a database of apps everyone can use and no one has control over.
+
+A free on open marketplace or app store for agents builds a foundation for a high quality ecosystem of businesses, SDK's and value creation.
 
 #### We should aim to create value where it makes natural sense at the protocol level where it is not easy for individuals to provide it.
 
-- Running agents on-chain? NOT our thing.
-- Reviews on chain? Probably our thing.
-- Agent payments on chain? Our thing if people want it.
+- Listings
+- Payments
+- Reviews
 
-- Listing, Discovery and Integration tools? **Definetely our thing**.
+And Anyting that makes that dead simple for builders to leverage everywhere.
