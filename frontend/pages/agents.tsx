@@ -38,13 +38,18 @@ const Agents = () => {
 
   return (
     <Layout>
-      {/* <PopUpForm /> */}
-      <Container className="mt-32 pb-10">
-        <div>
+      <div className="hero min-h-screen">
+        <div className="hero-content text-center">
+          {/* <PopUpForm /> */}
+          {/* <Container className="mt-32 pb-10"> */}
+          {/* <div>
           <h1 className="text-5xl">Agents</h1>
-        </div>
-        <div className="mt-28">
-          {agents?.map((agent: Agent) => {
+        </div> */}
+          <div className="">
+            {/* Coming Soon */}
+            {/* {window.location.hostname !== "localhost" ? ( */}
+            {/* <> */}
+            {/* {agents?.map((agent: Agent) => {
             return (
               <Link
                 key={agent.id}
@@ -59,9 +64,25 @@ const Agents = () => {
                 <div className="text-4xl mt-4 ml-3 truncate">{agent.name}</div>
               </Link>
             );
-          })}
+          })} */}
+            {/* </> */}
+            {/* ) : ( */}
+            <div className="w-full h-full text-center text-5xl">
+              Comming Soon
+            </div>
+            <a
+              href="https://airtable.com/shr5g54cH7aU8875w"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-secondary mt-4 w-full"
+            >
+              Sign Up For Early Access
+            </a>
+            {/* )} */}
+          </div>
         </div>
-      </Container>
+      </div>
+      {/* </Container> */}
     </Layout>
   );
 };

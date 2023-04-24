@@ -37,10 +37,10 @@ const Layout = ({ children }: { children: any }) => {
       <Navbar />
       <main className="flex-1">{children}</main>
       <footer className="h-32 text-center">
-        Bugs? Want to talk?{" "}
+        {/* Bugs? Want to talk?{" "}
         <a className="underline" href="https://twitter.com/carllippert">
           dm Carl
-        </a>
+        </a> */}
       </footer>
     </div>
   );

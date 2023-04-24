@@ -5,7 +5,10 @@ const Navbar = () => {
   return (
     <div className="navbar bg-base-100 fixed top-0 left-0 w-full z-50">
       <div className="flex-1">
-        <Link href="/" className="btn btn-ghost normal-case text-3xl">
+        <Link
+          href="/"
+          className="btn btn-ghost normal-case text-3xl text-white"
+        >
           Anything
         </Link>
       </div>
