@@ -3,7 +3,7 @@ import Layout from "@/components/layout";
 
 import { Database } from "../utils/database.types";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import PopUpForm from "@/components/popupForm";
+// import PopUpForm from "@/components/popupForm";
 import Container from "@/components/container";
 import Link from "next/link";
 type Agent = Database["public"]["Tables"]["agents"]["Row"];
@@ -38,7 +38,7 @@ const Agents = () => {
 
   return (
     <Layout>
-      <PopUpForm />
+      {/* <PopUpForm /> */}
       <Container className="mt-32 pb-10">
         <div>
           <h1 className="text-5xl">Browse Agents</h1>

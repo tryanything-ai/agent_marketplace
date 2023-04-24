@@ -19,10 +19,17 @@ const Navbar = ({ cta, href }: { cta: string; href: string }) => {
       <div className="flex-none">
         <ul className="menu menu-horizontal px-1">
           <Link href={href}>
-            <li className=" btn btn-secondary mr-2">{cta}</li>
+            <li className=" btn btn-primary mr-2">{cta}</li>
           </Link>
-
-          <SignInButton className="btn btn-primary">Sign Up</SignInButton>
+          <a
+            href="https://airtable.com/shr5g54cH7aU8875w"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <li className=" btn btn-secondary mr-2">Get Updates</li>
+          </a>
+          {/* https://airtable.com/shr5g54cH7aU8875w */}
+          {/* <SignInButton className="btn btn-primary">Sign Up</SignInButton> */}
         </ul>
       </div>
     </div>
