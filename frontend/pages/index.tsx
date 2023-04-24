@@ -14,9 +14,21 @@ const Home = () => {
                 Anything
               </span>
             </h1>
-            <Link className="btn" href="/agents">
-              Browse Agents 👉
-            </Link>
+            <div className="flex flex-col">
+              {" "}
+              <Link className="btn" href="/agents">
+                Browse Agents 👉
+              </Link>
+              <a
+                href="https://airtable.com/shr5g54cH7aU8875w"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-secondary mt-2"
+              >
+                Get Updates
+              </a>
+            </div>
+
             {/* <Search className="w-full" mobile={false} /> */}
           </div>
         </div>

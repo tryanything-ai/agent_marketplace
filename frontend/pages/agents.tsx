@@ -41,7 +41,7 @@ const Agents = () => {
       {/* <PopUpForm /> */}
       <Container className="mt-32 pb-10">
         <div>
-          <h1 className="text-5xl">Browse Agents</h1>
+          <h1 className="text-5xl">Agents</h1>
         </div>
         <div className="mt-28">
           {agents?.map((agent: Agent) => {
@@ -56,7 +56,7 @@ const Agents = () => {
                   src={agent.avatar_url}
                   alt="agent.name"
                 />
-                <div className="text-4xl mt-4 ml-3">{agent.name}</div>
+                <div className="text-4xl mt-4 ml-3 truncate">{agent.name}</div>
               </Link>
             );
           })}
