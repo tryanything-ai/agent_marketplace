@@ -39,10 +39,10 @@ export default async function auth(req: any, res: any) {
           //   );
           const nextAuthUrl = new URL(process.env.NEXTAUTH_URL!);
 
-            const result = await verifyMessage(
-                credentials?.message!,
-                "",
-                3,
+          const result = await verifyMessage(
+            credentials?.message!,
+            "",
+            3
             // signature: credentials?.signature || "",
             // domain: nextAuthUrl.host,
             // nonce: await getCsrfToken({ req }),
@@ -50,7 +50,7 @@ export default async function auth(req: any, res: any) {
 
           if (result) {
             return {
-              id: ,
+              id: "derp",
             };
           }
           return null;
