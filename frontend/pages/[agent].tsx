@@ -54,23 +54,36 @@ const Agent = () => {
   return (
     <Layout>
       <Container className="mt-32 pb-10">
-        <div className="flex flex-col w-full border-opacity-50">
-          <div className="h-40 card bg-base-300 rounded-box flex flex-row">
+        <div className="flex flex-col w-full ">
+          <div className="h-40 card bg-base-300 rounded-box flex flex-row border border-1 border-opacity-40">
             <img
-              className="rounded-full h-23 w-32 m-4"
+              className="rounded-full h-23 w-32 m-4 border border-1 "
               src={agent.avatar_url}
             />
             <div className="flex-col my-auto pl-10">
-              <p className="text-5xl pb-2">{agent.name}</p>
+              <p className="text-5xl pb-2 text-white">{agent.name}</p>
               <p>{agent.description}</p>
             </div>
           </div>
           <div className="divider">Details</div>
-          <div className="grid p-4 card bg-base-300 rounded-box">
+          <div className="grid p-4 card bg-base-300 rounded-box border border-1 text-white text-xl">
             <div>Site: {agent.external_url}</div>
-            <div>Reviews: Coming Soon</div>
-            <div>Usage Trends: Coming Soon</div>
-            <div>API: Coming Soon</div>
+            <div>
+              Pricing: <span className="badge badge-info">Coming Soon</span>
+            </div>
+            <div>
+              Reviews: <span className="badge badge-info">Coming Soon</span>
+            </div>
+            <div>
+              Usage Trends:{" "}
+              <span className="badge badge-info">Coming Soon</span>
+            </div>
+            <div>
+              API: <span className="badge badge-info">Coming Soon</span>
+            </div>
+            <div>
+              Github: <span className="badge badge-info">Coming Soon</span>
+            </div>
           </div>
         </div>
       </Container>

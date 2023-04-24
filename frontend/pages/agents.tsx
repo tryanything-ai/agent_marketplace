@@ -52,7 +52,7 @@ const Agents = () => {
                 className="h-20 bg-base-300 border border-1 rounded-md mb-3 flex flex-row"
               >
                 <img
-                  className="rounded-full h-14 w-14 m-2 ml-5"
+                  className="rounded-full h-14 w-14 m-2 ml-5 border border-1"
                   src={agent.avatar_url}
                   alt="agent.name"
                 />
