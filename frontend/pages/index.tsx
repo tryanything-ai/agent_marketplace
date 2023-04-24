@@ -17,11 +17,9 @@ const Home = () => {
             <div className="flex flex-col">
               {" "}
               {/* https://github.com/anything-protocol/agent_marketplace */}
-              {/* {window && window.location.hostname !== "localhost" ? (
-                <Link className="btn" href="/agents">
-                  Browse Agents 👉
-                </Link>
-              ) : ( */}
+              <Link className="btn" href="/agents">
+                Browse Agents 👉
+              </Link>
               {/* <a
                 className="btn"
                 href="https://github.com/anything-protocol/agent_marketplace"
@@ -31,6 +29,10 @@ const Home = () => {
                 Join Us On Github 👉
               </a> */}
               {/* )} */}
+              {/* <div className="text-xl text-white mb-6">
+                {" "}
+                The AI Agent Markteplace.
+              </div> */}
               <a
                 href="https://airtable.com/shr5g54cH7aU8875w"
                 target="_blank"
