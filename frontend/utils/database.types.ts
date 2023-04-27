@@ -14,12 +14,12 @@ export interface Database {
           avatar_url: string
           created_at: string | null
           description: string
-          external_url: string
+          external_url: string | null
           fake: boolean
           id: number
           name: string
-          pirce_description: string | null
           price: number | null
+          price_description: string | null
           slug: string
           user_id: string
         }
@@ -27,12 +27,12 @@ export interface Database {
           avatar_url: string
           created_at?: string | null
           description: string
-          external_url: string
+          external_url?: string | null
           fake?: boolean
           id?: number
           name: string
-          pirce_description?: string | null
           price?: number | null
+          price_description?: string | null
           slug: string
           user_id: string
         }
@@ -40,12 +40,12 @@ export interface Database {
           avatar_url?: string
           created_at?: string | null
           description?: string
-          external_url?: string
+          external_url?: string | null
           fake?: boolean
           id?: number
           name?: string
-          pirce_description?: string | null
           price?: number | null
+          price_description?: string | null
           slug?: string
           user_id?: string
         }
