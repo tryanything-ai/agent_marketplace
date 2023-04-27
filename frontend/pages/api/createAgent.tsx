@@ -7,10 +7,6 @@ import slugify from "slugify";
 
 import { object, number, string, boolean, ObjectSchema } from "yup";
 
-// type ApiResponse = {
-//   agent: Agent;
-// };
-
 const insertAgentSchema = object({
   avatar_url: string().required(),
   // created_at: string().nullable(),
