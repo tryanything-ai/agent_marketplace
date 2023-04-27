@@ -17,7 +17,7 @@ const Layout = ({ children }: { children: any }) => {
         title="Anything"
         openGraph={{
           title: "Anything",
-          description: "AI Agent rketplace",
+          description: "AI Agent Marketplace",
           images: [
             {
               url: "https://qcuguzlfpjtyiloqtysz.supabase.co/storage/v1/object/public/random/anything_agents.png",
