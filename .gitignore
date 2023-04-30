@@ -1,2 +1,5 @@
 # mac
 .DS_Store
+
+# env
+**/apikeys.py
