@@ -62,9 +62,34 @@ async def call_agent(prompt: str):
     other_costs = 0
     service_fee = 0
 
+# working from this course
+# https://learn.deeplearning.ai/chatgpt-prompt-eng/lesson/2/guidelines
+ 
+    # Hey can you help me? I need to find all the local businesses in town on twitter, then send them all dm's reminding them of the event we are hosting on July 4th.
+
     prompt_template = PromptTemplate(
         input_variables=['user_message'],
-        template='write me a twitter thread based on this hook Hook: {user_message}'
+        template="""
+        You will be provided with text delimited by triple quotes.  
+        If it contains a greeting and paragraph with a few requests of work to be done, \ 
+        re-write those requests in the following format and \ 
+        confirm that you completed them:
+
+        Completed Tasks: 
+
+        Task 1 - ...
+        Completed ✅
+        \n
+
+        Task 2 - …
+        Completed ✅
+        \n
+        …
+        Task N - …
+        Completed ✅
+
+        \"\"\"{user_message}\"\"\"
+        """
     )
 
     llm = OpenAI(temperature=0.9)
@@ -81,7 +106,7 @@ async def call_agent(prompt: str):
 
     # calculate costs
     ai_cost = (tokens_we_received_open_ai + tokens_we_sent_open_ai) * (gpt3PricePerThousand / 1000)
-    other_costs = 0.1; #arbitrary number  
+    other_costs = 0.1; #arbitrary number
     service_fee = ( ai_cost + other_costs ) * 0.2; 
 
     data = {

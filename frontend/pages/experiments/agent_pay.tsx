@@ -46,7 +46,7 @@ const LoadingDots = () => {
 };
 
 const Receipt = ({ receipt }: { receipt: Receipt }) => {
-  const [stars, setStars] = useState(0);
+  const [stars, setStars] = useState(1);
   const total = receipt.openai_cost + receipt.other_costs + receipt.service_fee;
 
   return (
@@ -61,7 +61,7 @@ const Receipt = ({ receipt }: { receipt: Receipt }) => {
         {/* Open AI Cost */}
         <div className="flex justify-between px-4 py-1">
           <p>{"OpenAI"}</p>
-          <p>${receipt.openai_cost.toFixed(2)}</p>
+          <p>${receipt.openai_cost.toFixed(4)}</p>
         </div>
         {/* Open AI Cost */}
         <div className="flex justify-between px-4 py-1">
@@ -179,7 +179,7 @@ const Message = ({
             <time className="text-xs opacity-50 ml-2">{time}</time>
           </div>
           <div
-            className={clsx("chat-bubble", {
+            className={clsx("chat-bubble whitespace-pre-wrap", {
               "chat-bubble-info": !start,
               "chat-bubble-success": start,
             })}
@@ -305,20 +305,34 @@ const AgentPay = () => {
     console.log("receipt", receipt);
     //make good looking receipt inside message.
     setTimeout(() => {
-      let newMessage: Message = {
-        id: "3",
-        start: true,
-        name: "Second Officer",
-        avatar:
-          "https://apilgriminnarnia.files.wordpress.com/2017/06/data-star-trek.jpg",
-        time: "12:46",
-        message: "Sure thing RECEIPT!",
-        status: Status.Thinking,
-        show_status: false,
-        receipt,
-      };
+      let newMessages: Message[] = [
+        {
+          id: "3",
+          start: true,
+          name: "Second Officer",
+          avatar:
+            "https://apilgriminnarnia.files.wordpress.com/2017/06/data-star-trek.jpg",
+          time: "12:46",
+          message:
+            "Here's your receipt. I'll turn on autopay going forward to make it faster if you give me a 5 star review",
+          status: Status.Delivered,
+          show_status: false,
+        },
+        {
+          id: "4",
+          start: true,
+          name: "Second Officer",
+          avatar:
+            "https://apilgriminnarnia.files.wordpress.com/2017/06/data-star-trek.jpg",
+          time: "12:46",
+          message: "Sure thing RECEIPT!",
+          status: Status.Thinking,
+          show_status: false,
+          receipt,
+        },
+      ];
 
-      setMessages((old_messages) => [...old_messages, newMessage]);
+      setMessages((old_messages) => [...old_messages, ...newMessages]);
     }, 1000); // delay for 1000ms
   };
   const sendMessage = async () => {
@@ -358,7 +372,7 @@ const AgentPay = () => {
       setMessages([
         {
           id: "0",
-          start: true,
+          start: false,
           avatar:
             "https://pbs.twimg.com/profile_images/1650519711593947137/0qNyuwSX_400x400.jpg",
           name: "Carl",
