@@ -17,7 +17,7 @@ module anything::agent_marketplace {
         marketing_url: String, 
         // handle: String,
         // current_version: String,
-        // current_version_id: UID, 
+        // current_version_id: UID,
        
         // models: String,
         // thumbnail: String,
@@ -29,6 +29,13 @@ module anything::agent_marketplace {
         // host: UID,
         // license: String,
         // status: String
+    }
+
+    struct Review has key, store {
+        id: UID,
+        agent: String,
+        rating: String,
+        reviewer: String, //tx_context::sender(ctx)
     }
 
     // struct AgentVersion has key, store {
@@ -69,6 +76,22 @@ module anything::agent_marketplace {
             }
     }
 
+    fun newReview(
+        agent: vector<u8>,
+        rating: vector<u8>,
+        reviewer: vector<u8>,
+        ctx: &mut TxContext
+      ): Review {
+        Review {
+            id: object::new(ctx),
+            agent: ascii::string(agent),
+            rating: ascii::string(rating),
+            reviewer: ascii::string(reviewer),
+            }
+    }
+
+    
+
     // fun newVersion(
     //     agent: UID,
     //     version: vector<u8>,
@@ -84,6 +107,10 @@ module anything::agent_marketplace {
     public fun get_agent(self: &Agent): (String, String, String, String, String) {
         (self.name, self.description, self.thumbnail, self.api_url, self.marketing_url)
     }
+
+    public fun get_review(self: &Review): (String, String, String) {
+        (self.agent, self.rating, self.reviewer)
+    }
  
     public entry fun create(
             name: vector<u8>,
@@ -97,6 +124,15 @@ module anything::agent_marketplace {
             transfer::transfer(agent, tx_context::sender(ctx)); //TODO: probably make it a sub object
             //  transfer::transfer(version, tx_context::sender(ctx))
         }
+
+    public entry fun createReview(
+            agent: vector<u8>,
+            rating: vector<u8>,
+            reviewer: vector<u8>,
+        ctx: &mut TxContext) {
+            let review = newReview(agent, rating, reviewer, ctx);
+            transfer::transfer(review, tx_context::sender(ctx)); 
+        }
 }
 
 
@@ -104,7 +140,7 @@ module anything::agent_marketplace {
 module anything::agent_tests {
 
     use sui::test_scenario;
-    use anything::agent_marketplace::{Self, Agent, get_agent};
+    use anything::agent_marketplace::{Self, Agent, Review, get_agent, get_review};
     use std::ascii::{Self};
 
     #[test]
@@ -155,4 +191,51 @@ module anything::agent_tests {
     };
     test_scenario::end(scenario_val);
     }
+
+    #[test]
+    fun test_createReview() {
+    let owner = @0x1;
+    // Create a Review and transfer it to @owner.
+    let scenario_val = test_scenario::begin(owner);
+    let scenario = &mut scenario_val;
+    {
+        let ctx = test_scenario::ctx(scenario);
+        agent_marketplace::createReview(
+        b"0x6789",
+        b"5",
+        b"0x9876",
+        ctx);
+    };
+
+    // Check that @not_owner does not own the just-created Review.
+    let not_owner = @0x2;
+    test_scenario::next_tx(scenario, not_owner);
+    {
+        assert!(!test_scenario::has_most_recent_for_sender<Review>(scenario), 0);
+    };
+
+    // Check that @owner indeed owns the just-created Review.
+    // Also checks the value fields of the object.
+    test_scenario::next_tx(scenario, owner);
+    {
+        let object = test_scenario::take_from_sender<Review>(scenario);
+        
+        let (
+        agent,
+        rating, 
+        reviewer
+        ) = get_review(&object);
+
+        assert!(agent == ascii::string(b"0x6789") && 
+        rating == ascii::string(b"5") &&
+        reviewer == ascii::string(b"0x9876")
+        , 0);
+
+    test_scenario::return_to_sender(scenario, object);
+
+    test_scenario::end(scenario_val);
+    };
+
+
+}
 }

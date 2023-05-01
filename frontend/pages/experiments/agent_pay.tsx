@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import Container from "@/components/container";
 import { IoMdSend } from "react-icons/io";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import clsx from "clsx";
 
 enum Status {
   Thinking = "Thinking",
@@ -21,25 +23,12 @@ type Message = {
   receipt?: Receipt;
 };
 
-type LineItem = {
-  name: string;
-  price: number;
-};
-
 type Receipt = {
   openai_cost: number;
   other_costs: number;
   service_fee: number;
   address: string;
   terms: string;
-};
-
-type Props = {
-  merchant: string;
-  items: LineItem[];
-  subtotal: number;
-  tax: number;
-  total: number;
 };
 
 const LoadingDots = () => {
@@ -191,7 +180,14 @@ const Message = ({
             {name}
             {/* <time className="text-xs opacity-50 ml-2">{time}</time> */}
           </div>
-          <div className="chat-bubble">{message}</div>
+          <div
+            className={clsx("chat-bubble", {
+              "chat-bubble-info": !start,
+              "chat-bubble-success": start,
+            })}
+          >
+            {message}
+          </div>
           {show_status ? (
             <div className="chat-footer opacity-50">{status}</div>
           ) : null}
@@ -201,10 +197,55 @@ const Message = ({
   );
 };
 
+const Authentication = ({ setEmail, login, loading }: any) => {
+  return (
+    <div className="flex-1 flex flex-col h-full items-center pt-10">
+      <img src="/anything.svg" alt="Anything" />
+      <div className="flex-1" />
+      <input
+        type="text"
+        onChange={(e) => {
+          setEmail(e.target.value);
+        }}
+        placeholder="Email"
+        className="input input-bordered rounded-md w-full max-w- mb-2"
+      />
+      <button onClick={login} className="btn btn-primary w-full mb-4">
+        {loading ? (
+          <AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />
+        ) : (
+          "Login"
+        )}
+      </button>
+    </div>
+  );
+};
+
 const AgentPay = () => {
   const [prompt, setPrompt] = useState<string>("");
   const [messages, setMessages] = useState<Message[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  // Login State
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>("");
+
+  const login = async () => {
+    try {
+      setLoading(true);
+
+      if (email) {
+        //TODO: call ethos api via our api
+        const response = await fetch("/api/ethos/login");
+
+        console.log("ethos_login", response);
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
@@ -222,7 +263,7 @@ const AgentPay = () => {
         ...messages,
         {
           id: "1",
-          start: false,
+          start: true,
           name: "Second Officer",
           avatar:
             "https://apilgriminnarnia.files.wordpress.com/2017/06/data-star-trek.jpg",
@@ -241,7 +282,7 @@ const AgentPay = () => {
     setTimeout(() => {
       let newMessage: Message = {
         id: "3",
-        start: false,
+        start: true,
         name: "Second Officer",
         avatar:
           "https://apilgriminnarnia.files.wordpress.com/2017/06/data-star-trek.jpg",
@@ -260,7 +301,7 @@ const AgentPay = () => {
     setMessages([
       {
         id: "0",
-        start: true,
+        start: false,
         avatar:
           "https://pbs.twimg.com/profile_images/1650519711593947137/0qNyuwSX_400x400.jpg",
         name: "Carl",
@@ -303,7 +344,7 @@ const AgentPay = () => {
         },
         {
           id: "1",
-          start: false,
+          start: true,
           name: "Second Officer",
           avatar:
             "https://apilgriminnarnia.files.wordpress.com/2017/06/data-star-trek.jpg",
@@ -314,7 +355,7 @@ const AgentPay = () => {
         },
         {
           id: "2",
-          start: false,
+          start: true,
           name: "Second Officer",
           avatar:
             "https://apilgriminnarnia.files.wordpress.com/2017/06/data-star-trek.jpg",
@@ -332,48 +373,60 @@ const AgentPay = () => {
   return (
     <Container className="mt-20 pb-10 flex flex-row">
       {/* Left */}
-      <div className="flex flex-col w-full ">
+      <div className="flex flex-col w-full">
         <div className="mockup-phone">
           <div className="camera" />
           <div className="display">
             <div className="artboard p-2 pt-8 phone-1 bg-gray-900 overflow-y-auto scroll-container">
               {/* Chat */}
 
-              {messages.length > 0 ? (
+              {loggedIn ? (
                 <>
-                  {messages.map((message) => (
-                    <Message
-                      key={message.id}
-                      avatar={message.avatar}
-                      start={message.start}
-                      name={message.name}
-                      time={message.time}
-                      message={message.message}
-                      status={message.status}
-                      show_status={message.show_status}
-                      receipt={message.receipt}
-                    />
-                  ))}
-                  <div ref={messagesEndRef} />
+                  {messages.length > 0 ? (
+                    <>
+                      {messages.map((message) => (
+                        <Message
+                          key={message.id}
+                          avatar={message.avatar}
+                          start={message.start}
+                          name={message.name}
+                          time={message.time}
+                          message={message.message}
+                          status={message.status}
+                          show_status={message.show_status}
+                          receipt={message.receipt}
+                        />
+                      ))}
+                      <div ref={messagesEndRef} />
+                    </>
+                  ) : (
+                    //  empty screen
+
+                    <div className="flex flex-col h-full">
+                      <div className="flex-1" />
+
+                      <div className="flex flex-row ml-1 mb-2">
+                        <input
+                          type="text"
+                          onChange={(e) => {
+                            setPrompt(e.target.value);
+                          }}
+                          placeholder="Type here"
+                          className="input input-bordered rounded-2xl h-10 w-full max-w-xs"
+                        />
+                        <button className=" ml-1" onClick={sendMessage}>
+                          <IoMdSend className="w-10 h-10 text-gray-500" />
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </>
               ) : (
-                //  empty screen
-                <div className="flex flex-col h-full">
-                  <div className="flex-1" />
-                  <div className="flex flex-row ml-1 mb-2">
-                    <input
-                      type="text"
-                      onChange={(e) => {
-                        setPrompt(e.target.value);
-                      }}
-                      placeholder="Type here"
-                      className="input input-bordered rounded-2xl h-10 w-full max-w-xs"
-                    />
-                    <button className=" ml-1" onClick={sendMessage}>
-                      <IoMdSend className="w-10 h-10 text-gray-500" />
-                    </button>
-                  </div>
-                </div>
+                <Authentication
+                  setEmail={setEmail}
+                  login={login}
+                  loading={loading}
+                />
               )}
 
               {/* End Chat */}
