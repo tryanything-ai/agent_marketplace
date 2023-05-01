@@ -4,6 +4,8 @@ import { IoMdSend } from "react-icons/io";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import clsx from "clsx";
 
+const SITE_IS_LIVE = process.env.NEXT_PUBLIC_VERCEL_ENV === "production";
+
 enum Status {
   Thinking = "Thinking",
   Writing = "Writing",
@@ -202,21 +204,34 @@ const Authentication = ({ setEmail, login, loading }: any) => {
     <div className="flex-1 flex flex-col h-full items-center pt-10">
       <img src="/anything.svg" alt="Anything" />
       <div className="flex-1" />
-      <input
-        type="text"
-        onChange={(e) => {
-          setEmail(e.target.value);
-        }}
-        placeholder="Email"
-        className="input input-bordered rounded-md w-full max-w- mb-2"
-      />
-      <button onClick={login} className="btn btn-primary w-full mb-4">
-        {loading ? (
-          <AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />
-        ) : (
-          "Login"
-        )}
-      </button>
+      {SITE_IS_LIVE ? (
+        <a
+          href="https://airtable.com/shr5g54cH7aU8875w"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn btn-secondary mt-2"
+        >
+          Sign Up For Early Access
+        </a>
+      ) : (
+        <>
+          <input
+            type="text"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+            placeholder="Email"
+            className="input input-bordered rounded-md w-full max-w- mb-2"
+          />
+          <button onClick={login} className="btn btn-primary w-full mb-4">
+            {loading ? (
+              <AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />
+            ) : (
+              "Login"
+            )}
+          </button>
+        </>
+      )}
     </div>
   );
 };
@@ -236,7 +251,13 @@ const AgentPay = () => {
 
       if (email) {
         //TODO: call ethos api via our api
-        const response = await fetch("/api/ethos/login");
+        const response = await fetch("/api/ethos/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        });
 
         console.log("ethos_login", response);
       }
