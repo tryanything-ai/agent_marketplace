@@ -1,7 +1,28 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from agent_chain import call_agent
+from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+    "http://localhost:8000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+class RequestBody(BaseModel):
+    address: str 
+    message: str
 
 class Msg(BaseModel):
     msg: str
@@ -11,9 +32,9 @@ async def root():
     return {"message": "Hello World. Welcome to FastAPI!"}
 
 
-@app.get("/path")
-async def demo_get():
-    return {"message": "This is /path endpoint, use a post request to transform the text to uppercase"}
+@app.post("/agent")
+async def demo_get(request: RequestBody):
+    return await call_agent(request.message)
 
 
 @app.post("/path")

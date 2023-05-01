@@ -1,5 +1,6 @@
 import os
-from apikey import openai_api_key
+import json
+from apikeys import openai_api_key
 
 # import streamlit as st
 # //TODO: add supabase python
@@ -12,6 +13,8 @@ import tiktoken
 # For asynchronous RPC API interactions
 from pysui.sui.sui_clients.sync_client import SuiClient as sync_client
 from pysui.sui.sui_config import SuiConfig
+
+
 
 my_address='0x570e368db8f66fbf5a06e2c4fcd94bb38a87c864ea37ec1abe640ce3a633c931'
 my_gas='0x0b28c1851b198c2a91da379396c616248e64170337a91712421375e84a87c9ee'
@@ -30,6 +33,8 @@ def num_tokens_from_string(string: str, model_name: str) -> int:
     num_tokens = len(encoding.encode(string))
     return num_tokens
 
+    
+
 def sendSui():
     # Send SUI to receiver_address
     # https://pysui.readthedocs.io/en/latest/intro.html#sending-tokens
@@ -46,59 +51,59 @@ def sendSui():
 # pricing
 
 #  ['service', tokens]
+def call_agent(prompt: str): 
+    # measure
+    tokens_we_sent_open_ai=0
+    tokens_we_received_open_ai=0
+    # calculate
+    ai_cost = 0
+    other_costs = 0
+    service_fee = 0
 
-cost = 0
-sent_tokens_external = 0
-received_tokens_external = 0
-recieved_tokens_internal = 0
-sent_tokens_internal = 0
+    prompt_template = PromptTemplate(
+        input_variables=['user_message'],
+        template='write me a twitter thread based on this hook Hook: {user_message}'
+    )
 
-# st.title('🔥 Blue Collar AI Thread AI')
-# prompt = st.text_input("What does your agent do?")
-prompt = ""
+    llm = OpenAI(temperature=0.9)
+    title_chain = LLMChain(llm=llm, prompt=prompt_template, verbose=True, output_key='ai_output')
 
+    # measure tokens we received from user
+    tokens_we_sent_open_ai += num_tokens_from_string(prompt, 'gpt-3.5-turbo')
 
-prompt_template = PromptTemplate(
-    input_variables=['hook'],
-    template='write me a twitter thread based on this hook Hook: {hook}'
-)
-
-llm = OpenAI(temperature=0.9)
-title_chain = LLMChain(llm=llm, prompt=prompt_template, verbose=True, output_key='hook')
-# thread_chain=LLMChain(llm=llm, prompt=thread_template, verbose=True, output_key='thread')
-
-# sequential_chain = SequentialChain(chains=[title_chain, thread_chain], verbose=True, input_variables=['agent_function'], output_variables=['hook', 'thread'])
-
-if prompt:
-    # measure tokens we receiced from user
-    recieved_tokens_internal += num_tokens_from_string(prompt, 'gpt-3.5-turbo')
     # run the prompts in open ai
-    # response = sequential_chain({'agent_function': prompt})
-    response = title_chain.run(hook=prompt); 
-    # sent_tokens_external += num_tokens_from_string(title_template.format(agent_function=prompt), 'gpt-3.5-turbo')
-    # sent_tokens_external += num_tokens_from_string(thread_template.format(hook=response['hook']), 'gpt-3.5-turbo')
+    response = title_chain.run(user_message=prompt); 
+      
     # measure tokens we sent to user
-    sent_tokens_internal += num_tokens_from_string(response['hook'], 'gpt-3.5-turbo')
-    # measure tokens we received from openAI
-    received_tokens_external += num_tokens_from_string(response['hook'], 'gpt-3.5-turbo')
-    # st.write(response['hook'])
-    # st.write('---')
-    # measure tokens we sent to user
-    sent_tokens_internal += num_tokens_from_string(response['thread'], 'gpt-3.5-turbo')
-    # measure tokens we received from openAI
-    received_tokens_external += num_tokens_from_string(response['thread'], 'gpt-3.5-turbo')
-    # st.write(response['thread'])
+    tokens_we_received_open_ai += num_tokens_from_string(response['ai_output'], 'gpt-3.5-turbo')
 
-    # Costs
-    # 1. tokens we sent to openAI
-    # st.write('Total tokens sent to OpenAI: ', sent_tokens_external)
-    # 2. tokens we received from openAI
-    # st.write('Total tokens received from OpenAI: ', received_tokens_external)
-    # 3. tokens we received from user
-    # st.write('Total tokens received from user: ', recieved_tokens_internal)
-     # 4. tokens we sent to user
-    # st.write('Total tokens sent to user: ', sent_tokens_internal)
+    # calculate costs
+    ai_cost = (tokens_we_sent_open_ai  * 1) + (tokens_we_received_open_ai * 1); 
+    other_costs = 10; #arbitrary number  
+    service_fee = ( ai_cost + other_costs ) * 0.2; 
 
-    # Use st.asyncio to run async_function
-    # result = sendSui()
-    # st.write(result)
+    data = {
+        "message": response['ai_output'],
+        "reciept": {
+                "openai_cost": ai_cost,
+                "other_costs": other_costs,
+                "service_fee": service_fee,
+                "address": my_address, #sui address
+                "terms": "24hrs" #24hrs
+        },
+    }
+    return json.dumps(data)
+
+        # Costs
+        # 1. tokens we sent to openAI
+        # st.write('Total tokens sent to OpenAI: ', sent_tokens_external)
+        # 2. tokens we received from openAI
+        # st.write('Total tokens received from OpenAI: ', received_tokens_external)
+        # 3. tokens we received from user
+        # st.write('Total tokens received from user: ', recieved_tokens_internal)
+        # 4. tokens we sent to user
+        # st.write('Total tokens sent to user: ', sent_tokens_internal)
+
+        # Use st.asyncio to run async_function
+        # result = sendSui()
+        # st.write(result)

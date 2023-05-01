@@ -147,7 +147,7 @@ const AgentPay = () => {
       setMessages(newMessages);
     }, 1000); // delay for 500ms
   };
-  const sendMessage = () => {
+  const sendMessage = async () => {
     // add message to message array
     setMessages([
       {
@@ -166,16 +166,22 @@ const AgentPay = () => {
     delayedMessage();
 
     //call ai agent
-    let result = fetch("http://localhost:8000/agent", {
+    let result = await fetch("http://127.0.0.1:8000/agent", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         message: prompt,
+        address: "sui_address",
       }),
     });
     //update message in spot 2
+    if (result) {
+      console.log(result);
+      //make new message
+      //parse message receipt and generate receipt
+    }
   };
 
   //call robot ask for help
