@@ -3,7 +3,8 @@ from pydantic import BaseModel
 from agent_chain import call_agent
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
-
+# from fastapi.responses import JSONResponse
+import json
 app = FastAPI()
 
 origins = [
@@ -34,7 +35,8 @@ async def root():
 
 @app.post("/agent")
 async def demo_get(request: RequestBody):
-    return await call_agent(request.message)
+    res = await call_agent(request.message)
+    return json.loads(res); 
 
 
 @app.post("/path")

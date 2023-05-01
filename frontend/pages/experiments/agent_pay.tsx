@@ -1,7 +1,13 @@
+import { useState, useEffect, useRef } from "react";
 import Container from "@/components/container";
-import Layout from "@/components/layout";
-import { useState, useEffect } from "react";
 import { IoMdSend } from "react-icons/io";
+
+enum Status {
+  Thinking = "Thinking",
+  Writing = "Writing",
+  Sent = "Sent",
+  Delivered = "Delivered",
+}
 
 type Message = {
   id: string;
@@ -10,13 +16,22 @@ type Message = {
   name: string;
   time: string;
   message: string;
-  status: string;
+  status: Status;
   show_status: boolean;
+  receipt?: Receipt;
 };
 
 type LineItem = {
   name: string;
   price: number;
+};
+
+type Receipt = {
+  openai_cost: number;
+  other_costs: number;
+  service_fee: number;
+  address: string;
+  terms: string;
 };
 
 type Props = {
@@ -27,56 +42,94 @@ type Props = {
   total: number;
 };
 
-const Receipt: React.FC<Props> = ({
-  merchant,
-  items,
-  subtotal,
-  tax,
-  total,
-}) => {
+const LoadingDots = () => {
   return (
-    <div className="bg-white rounded-md shadow-md overflow-hidden max-w-xs mx-auto mt-4">
-      <div className="p-4">
-        <h1 className="text-lg font-bold">{merchant}</h1>
-        <p className="text-sm text-gray-500">Order Placed: 2/2/2022, 2:22 PM</p>
-      </div>
-      <div className="border-t border-gray-300">
-        {items.map((item) => (
-          <div key={item.name} className="flex justify-between p-4">
-            <p>{item.name}</p>
-            <p>${item.price.toFixed(2)}</p>
-          </div>
-        ))}
-      </div>
-      <div className="p-4 flex justify-between">
-        <p>Subtotal:</p>
-        <p>${subtotal.toFixed(2)}</p>
-      </div>
-      <div className="p-4 flex justify-between">
-        <p>Tax:</p>
-        <p>${tax.toFixed(2)}</p>
-      </div>
-      <div className="p-4 flex justify-between border-t border-gray-300 font-bold">
-        <p>Total:</p>
-        <p>${total.toFixed(2)}</p>
-      </div>
+    <div className="flex justify-center items-center space-x-1 text-white">
+      <div className="animate-bounce">.</div>
+      <div className="animate-bounce delay-75">.</div>
+      <div className="animate-bounce delay-150">.</div>
     </div>
   );
 };
 
-const testMessages: Message[] = [
-  {
-    id: "0",
-    start: true,
-    avatar:
-      "https://pbs.twimg.com/profile_images/1650519711593947137/0qNyuwSX_400x400.jpg",
-    name: "Carl",
-    time: "12:45",
-    message: "Can you plan next weeks party?",
-    status: "Delivered",
-    show_status: true,
-  },
-];
+const Receipt = ({ receipt }: { receipt: Receipt }) => {
+  const [stars, setStars] = useState(0);
+  const total = receipt.openai_cost + receipt.other_costs + receipt.service_fee;
+
+  return (
+    <div className="bg-white rounded-md text-black">
+      <div className="p-4">
+        <h1 className="text-xl font-bold text-black">
+          {"Friendly Robot Co 🤖"}
+        </h1>
+        {/* <p className="text-sm text-gray-500">Order Placed: 2/2/2022, 2:22 PM</p> */}
+      </div>
+      <div className="border-t border-gray-300">
+        {/* Open AI Cost */}
+        <div className="flex justify-between px-4 py-1">
+          <p>{"OpenAI"}</p>
+          <p>${receipt.openai_cost.toFixed(2)}</p>
+        </div>
+        {/* Open AI Cost */}
+        <div className="flex justify-between px-4 py-1">
+          <p>{"Fixed Costs"}</p>
+          <p>${receipt.other_costs.toFixed(2)}</p>
+        </div>
+        {/* Open AI Cost */}
+        <div className="flex justify-between px-4 py-1">
+          <p>{"Service Fee"}</p>
+          <p>${receipt.service_fee.toFixed(2)}</p>
+        </div>
+      </div>
+
+      <div className="p-4 flex justify-between border-t border-gray-300 font-bold">
+        <p>Total:</p>
+        <p>${total.toFixed(2)}</p>
+      </div>
+
+      <div className="rating rating-md p-4 flex justify-between border-t border-gray-300 font-bold">
+        <input
+          type="radio"
+          name="rating-7"
+          className="mask mask-star-2 bg-orange-400"
+          onClick={() => setStars(1)}
+          checked={stars === 1}
+        />
+        <input
+          type="radio"
+          name="rating-7"
+          className="mask mask-star-2 bg-orange-400"
+          onClick={() => setStars(2)}
+          checked={stars === 2}
+        />
+        <input
+          type="radio"
+          name="rating-7"
+          className="mask mask-star-2 bg-orange-400"
+          onClick={() => setStars(3)}
+          checked={stars === 3}
+        />
+        <input
+          type="radio"
+          name="rating-7"
+          className="mask mask-star-2 bg-orange-400"
+          onClick={() => setStars(4)}
+          checked={stars === 4}
+        />
+        <input
+          type="radio"
+          name="rating-7"
+          className="mask mask-star-2 bg-orange-400"
+          onClick={() => setStars(5)}
+          checked={stars === 5}
+        />
+      </div>
+      <div className="p-4 pt-2 flex justify-between font-bold">
+        <button className="btn btn-primary w-full">Pay</button>
+      </div>
+    </div>
+  );
+};
 
 const Message = ({
   avatar,
@@ -86,6 +139,7 @@ const Message = ({
   message,
   status,
   show_status,
+  receipt,
 }: {
   avatar: string;
   start: boolean;
@@ -94,44 +148,78 @@ const Message = ({
   message: string;
   status: string;
   show_status: boolean;
+  receipt?: Receipt;
 }) => {
   return (
-    <div className={`chat ${start ? "chat-start" : "chat-end"}`}>
-      <div className="chat-image avatar">
-        <div className="w-10 rounded-full">
-          <img src={avatar} />
+    <>
+      {receipt ? (
+        <div className={`chat ${start ? "chat-start" : "chat-end"}`}>
+          <div className="chat-image avatar">
+            <div className="w-10 rounded-full">
+              <img src={avatar} />
+            </div>
+          </div>
+          <div className="chat-header p">
+            {name}
+            {/* <time className="text-xs opacity-50 ml-2">{time}</time> */}
+          </div>
+          <div className="chat-bubble p-0 w-full">
+            <Receipt receipt={receipt} />
+          </div>
+          {show_status ? (
+            <div className="chat-footer opacity-50">
+              <>
+                {status === Status.Thinking ? (
+                  <>
+                    <LoadingDots />
+                  </>
+                ) : (
+                  <>{status} </>
+                )}
+              </>
+            </div>
+          ) : null}
         </div>
-      </div>
-      <div className="chat-header">
-        {name}
-        {/* <time className="text-xs opacity-50 ml-2">{time}</time> */}
-      </div>
-      <div className="chat-bubble">{message}</div>
-      {show_status ? (
-        <div className="chat-footer opacity-50">{status}</div>
-      ) : null}
-    </div>
+      ) : (
+        <div className={`chat ${start ? "chat-start" : "chat-end"}`}>
+          <div className="chat-image avatar">
+            <div className="w-10 rounded-full">
+              <img src={avatar} />
+            </div>
+          </div>
+          <div className="chat-header">
+            {name}
+            {/* <time className="text-xs opacity-50 ml-2">{time}</time> */}
+          </div>
+          <div className="chat-bubble">{message}</div>
+          {show_status ? (
+            <div className="chat-footer opacity-50">{status}</div>
+          ) : null}
+        </div>
+      )}
+    </>
   );
 };
 
 const AgentPay = () => {
   const [prompt, setPrompt] = useState<string>("");
   const [messages, setMessages] = useState<Message[]>([]);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]); // Assuming 'messages' is the state variable containing the chat messages
 
   const delayedMessage = () => {
     setTimeout(() => {
-      let newMessages = [
-        {
-          id: "0",
-          start: true,
-          avatar:
-            "https://pbs.twimg.com/profile_images/1650519711593947137/0qNyuwSX_400x400.jpg",
-          name: "Carl",
-          time: "12:45",
-          message: prompt,
-          status: "Delivered",
-          show_status: true,
-        },
+      setMessages((messages) => [
+        ...messages,
         {
           id: "1",
           start: false,
@@ -140,12 +228,32 @@ const AgentPay = () => {
             "https://apilgriminnarnia.files.wordpress.com/2017/06/data-star-trek.jpg",
           time: "12:46",
           message: "Sure thing!",
-          status: "Thinking ...",
+          status: Status.Thinking,
           show_status: true,
         },
-      ];
-      setMessages(newMessages);
+      ]);
     }, 1000); // delay for 500ms
+  };
+
+  const delayedBill = (receipt: any) => {
+    console.log("receipt", receipt);
+    //make good looking receipt inside message.
+    setTimeout(() => {
+      let newMessage: Message = {
+        id: "3",
+        start: false,
+        name: "Second Officer",
+        avatar:
+          "https://apilgriminnarnia.files.wordpress.com/2017/06/data-star-trek.jpg",
+        time: "12:46",
+        message: "Sure thing RECEIPT!",
+        status: Status.Thinking,
+        show_status: false,
+        receipt,
+      };
+
+      setMessages((old_messages) => [...old_messages, newMessage]);
+    }, 1000); // delay for 1000ms
   };
   const sendMessage = async () => {
     // add message to message array
@@ -158,7 +266,7 @@ const AgentPay = () => {
         name: "Carl",
         time: "12:45",
         message: prompt,
-        status: "Delivered",
+        status: Status.Delivered,
         show_status: true,
       },
     ]);
@@ -166,7 +274,7 @@ const AgentPay = () => {
     delayedMessage();
 
     //call ai agent
-    let result = await fetch("http://127.0.0.1:8000/agent", {
+    let response = await fetch("http://127.0.0.1:8000/agent", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -175,19 +283,51 @@ const AgentPay = () => {
         message: prompt,
         address: "sui_address",
       }),
-    });
+    }).then((response) => response.json());
     //update message in spot 2
-    if (result) {
-      console.log(result);
-      //make new message
-      //parse message receipt and generate receipt
+    if (response) {
+      console.log(response);
+
+      //update message
+      setMessages([
+        {
+          id: "0",
+          start: true,
+          avatar:
+            "https://pbs.twimg.com/profile_images/1650519711593947137/0qNyuwSX_400x400.jpg",
+          name: "Carl",
+          time: "12:45",
+          message: prompt,
+          status: Status.Delivered,
+          show_status: true,
+        },
+        {
+          id: "1",
+          start: false,
+          name: "Second Officer",
+          avatar:
+            "https://apilgriminnarnia.files.wordpress.com/2017/06/data-star-trek.jpg",
+          time: "12:46",
+          message: "Sure thing!",
+          status: Status.Delivered,
+          show_status: false,
+        },
+        {
+          id: "2",
+          start: false,
+          name: "Second Officer",
+          avatar:
+            "https://apilgriminnarnia.files.wordpress.com/2017/06/data-star-trek.jpg",
+          time: "12:46",
+          message: response.message,
+          status: Status.Delivered,
+          show_status: false,
+        },
+      ]);
+
+      delayedBill(response.receipt);
     }
   };
-
-  //call robot ask for help
-  //get help
-  //get a bill
-  //pay bill
 
   return (
     <Container className="mt-20 pb-10 flex flex-row">
@@ -196,44 +336,46 @@ const AgentPay = () => {
         <div className="mockup-phone">
           <div className="camera" />
           <div className="display">
-            <div className="artboard p-2 pt-8 phone-1 bg-gray-900">
+            <div className="artboard p-2 pt-8 phone-1 bg-gray-900 overflow-y-auto scroll-container">
               {/* Chat */}
-              <div className="h-full">
-                {messages.length > 0 ? (
-                  <>
-                    {messages.map((message) => (
-                      <Message
-                        key={message.id}
-                        avatar={message.avatar}
-                        start={message.start}
-                        name={message.name}
-                        time={message.time}
-                        message={message.message}
-                        status={message.status}
-                        show_status={message.show_status}
-                      />
-                    ))}
-                  </>
-                ) : (
-                  //  empty screen
-                  <div className="flex flex-col h-full">
-                    <div className="flex-1" />
-                    <div className="flex flex-row ml-1 mb-2">
-                      <input
-                        type="text"
-                        onChange={(e) => {
-                          setPrompt(e.target.value);
-                        }}
-                        placeholder="Type here"
-                        className="input input-bordered rounded-2xl h-10 w-full max-w-xs"
-                      />
-                      <button className=" ml-1" onClick={sendMessage}>
-                        <IoMdSend className="w-10 h-10 text-gray-500" />
-                      </button>
-                    </div>
+
+              {messages.length > 0 ? (
+                <>
+                  {messages.map((message) => (
+                    <Message
+                      key={message.id}
+                      avatar={message.avatar}
+                      start={message.start}
+                      name={message.name}
+                      time={message.time}
+                      message={message.message}
+                      status={message.status}
+                      show_status={message.show_status}
+                      receipt={message.receipt}
+                    />
+                  ))}
+                  <div ref={messagesEndRef} />
+                </>
+              ) : (
+                //  empty screen
+                <div className="flex flex-col h-full">
+                  <div className="flex-1" />
+                  <div className="flex flex-row ml-1 mb-2">
+                    <input
+                      type="text"
+                      onChange={(e) => {
+                        setPrompt(e.target.value);
+                      }}
+                      placeholder="Type here"
+                      className="input input-bordered rounded-2xl h-10 w-full max-w-xs"
+                    />
+                    <button className=" ml-1" onClick={sendMessage}>
+                      <IoMdSend className="w-10 h-10 text-gray-500" />
+                    </button>
                   </div>
-                )}
-              </div>
+                </div>
+              )}
+
               {/* End Chat */}
             </div>
           </div>

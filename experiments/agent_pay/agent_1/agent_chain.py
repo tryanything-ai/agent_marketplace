@@ -27,13 +27,15 @@ os.environ['OPENAI_API_KEY'] = openai_api_key
 # https://pysui.readthedocs.io/en/latest/intro.html#the-client
 client = sync_client(SuiConfig.default_config()) # Assumes devnet or testnet
 
+gpt3PricePerThousand = 	0.002
+
 def num_tokens_from_string(string: str, model_name: str) -> int:
     """Returns the number of tokens in a text string."""
     encoding = tiktoken.encoding_for_model(model_name)
     num_tokens = len(encoding.encode(string))
     return num_tokens
 
-    
+
 
 def sendSui():
     # Send SUI to receiver_address
@@ -51,7 +53,7 @@ def sendSui():
 # pricing
 
 #  ['service', tokens]
-def call_agent(prompt: str): 
+async def call_agent(prompt: str): 
     # measure
     tokens_we_sent_open_ai=0
     tokens_we_received_open_ai=0
@@ -66,7 +68,7 @@ def call_agent(prompt: str):
     )
 
     llm = OpenAI(temperature=0.9)
-    title_chain = LLMChain(llm=llm, prompt=prompt_template, verbose=True, output_key='ai_output')
+    title_chain = LLMChain(llm=llm, prompt=prompt_template, verbose=True)
 
     # measure tokens we received from user
     tokens_we_sent_open_ai += num_tokens_from_string(prompt, 'gpt-3.5-turbo')
@@ -75,16 +77,16 @@ def call_agent(prompt: str):
     response = title_chain.run(user_message=prompt); 
       
     # measure tokens we sent to user
-    tokens_we_received_open_ai += num_tokens_from_string(response['ai_output'], 'gpt-3.5-turbo')
+    tokens_we_received_open_ai += num_tokens_from_string(response, 'gpt-3.5-turbo')
 
     # calculate costs
-    ai_cost = (tokens_we_sent_open_ai  * 1) + (tokens_we_received_open_ai * 1); 
-    other_costs = 10; #arbitrary number  
+    ai_cost = (tokens_we_received_open_ai + tokens_we_sent_open_ai) * (gpt3PricePerThousand / 1000)
+    other_costs = 0.1; #arbitrary number  
     service_fee = ( ai_cost + other_costs ) * 0.2; 
 
     data = {
-        "message": response['ai_output'],
-        "reciept": {
+        "message": response,
+        "receipt": {
                 "openai_cost": ai_cost,
                 "other_costs": other_costs,
                 "service_fee": service_fee,
@@ -92,6 +94,9 @@ def call_agent(prompt: str):
                 "terms": "24hrs" #24hrs
         },
     }
+
+    print(data)
+
     return json.dumps(data)
 
         # Costs
