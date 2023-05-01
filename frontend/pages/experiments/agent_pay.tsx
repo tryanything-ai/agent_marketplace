@@ -36,9 +36,11 @@ type Receipt = {
 const LoadingDots = () => {
   return (
     <div className="flex justify-center items-center space-x-1 text-white">
-      <div className="animate-bounce">.</div>
-      <div className="animate-bounce delay-75">.</div>
-      <div className="animate-bounce delay-150">.</div>
+      Thinking
+      <div> </div>
+      <div className="animate-bounce ">.</div>
+      <div className="animate-bounce pb-0.1">.</div>
+      <div className="animate-bounce pb-0.2">.</div>
     </div>
   );
 };
@@ -152,7 +154,7 @@ const Message = ({
           </div>
           <div className="chat-header p">
             {name}
-            {/* <time className="text-xs opacity-50 ml-2">{time}</time> */}
+            <time className="text-xs opacity-50 ml-2">{time}</time>
           </div>
           <div className="chat-bubble p-0 w-full">
             <Receipt receipt={receipt} />
@@ -160,13 +162,7 @@ const Message = ({
           {show_status ? (
             <div className="chat-footer opacity-50">
               <>
-                {status === Status.Thinking ? (
-                  <>
-                    <LoadingDots />
-                  </>
-                ) : (
-                  <>{status} </>
-                )}
+                {status === Status.Thinking ? <LoadingDots /> : <>{status}</>}
               </>
             </div>
           ) : null}
@@ -180,7 +176,7 @@ const Message = ({
           </div>
           <div className="chat-header">
             {name}
-            {/* <time className="text-xs opacity-50 ml-2">{time}</time> */}
+            <time className="text-xs opacity-50 ml-2">{time}</time>
           </div>
           <div
             className={clsx("chat-bubble", {
@@ -191,7 +187,11 @@ const Message = ({
             {message}
           </div>
           {show_status ? (
-            <div className="chat-footer opacity-50">{status}</div>
+            <div className="chat-footer opacity-50">
+              <>
+                {status === Status.Thinking ? <LoadingDots /> : <>{status}</>}
+              </>
+            </div>
           ) : null}
         </div>
       )}
@@ -241,7 +241,7 @@ const AgentPay = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   // Login State
-  const [loggedIn, setLoggedIn] = useState<boolean>(false);
+  const [loggedIn, setLoggedIn] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
 
@@ -259,7 +259,11 @@ const AgentPay = () => {
           body: JSON.stringify({ email }),
         });
 
-        console.log("ethos_login", response);
+        if (response.status === 200) {
+          setLoggedIn(true);
+        } else {
+          alert("Something went wrong");
+        }
       }
     } catch (e) {
       console.log(e);
