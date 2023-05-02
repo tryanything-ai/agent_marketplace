@@ -66,7 +66,7 @@ async def call_agent(prompt: str):
 # https://learn.deeplearning.ai/chatgpt-prompt-eng/lesson/2/guidelines
  
     # Hey can you help me? I need to find all the local businesses in town on twitter, then send them all dm's reminding them of the event we are hosting on July 4th.
-
+    # Hey can you help me find everyone that likes auto-gpt on github and then send them a dm about my new proejct?
     prompt_template = PromptTemplate(
         input_variables=['user_message'],
         template="""

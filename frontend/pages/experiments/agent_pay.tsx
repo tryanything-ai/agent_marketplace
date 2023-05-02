@@ -45,9 +45,52 @@ const LoadingDots = () => {
   );
 };
 
-const Receipt = ({ receipt }: { receipt: Receipt }) => {
+const Receipt = ({
+  receipt,
+  setMessages,
+}: {
+  receipt: Receipt;
+  setMessages: any;
+}) => {
   const [stars, setStars] = useState(1);
   const total = receipt.openai_cost + receipt.other_costs + receipt.service_fee;
+  const [loading, setLoading] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
+  const [link, setLink] = useState<string>("");
+
+  const sendSui = async () => {
+    setLoading(true);
+    console.log("Loading, True");
+    try {
+      //pause for 400ms
+      setTimeout(() => {
+        setSuccess(true);
+        setLink(
+          "https://explorer.sui.io/txblock/EB7sF3YVBU4P1DeQtFbTHSihE4sT5pdpWc8o4X2aVq1B"
+        );
+
+        //TODO: add message that says thanks and gives links
+        setMessages((messages: any) => [
+          ...messages,
+          {
+            id: messages.length + 1,
+            start: true,
+            name: "Second Officer",
+            avatar:
+              "https://apilgriminnarnia.files.wordpress.com/2017/06/data-star-trek.jpg",
+            time: "12:46",
+            message: "Thank for the review!",
+            status: Status.Thinking,
+            show_status: false,
+          },
+        ]);
+      }, 2000); // 400ms delay
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="bg-white rounded-md text-black">
@@ -117,8 +160,43 @@ const Receipt = ({ receipt }: { receipt: Receipt }) => {
           checked={stars === 5}
         />
       </div>
+
+      {success ? (
+        <div className="border-t border-gray-300">
+          {/* Review */}
+          <div className="flex justify-between px-4 py-1">
+            <p>
+              <a href="" target="_blank" rel="noopener noreferrer">
+                Review
+              </a>
+            </p>
+            <p>
+              <a href={link} target="_blank" rel="noopener noreferrer">
+                Payment Details
+              </a>
+            </p>
+          </div>
+        </div>
+      ) : null}
+
       <div className="p-4 pt-2 flex justify-between font-bold">
-        <button className="btn btn-primary w-full">Pay</button>
+        {success ? (
+          <button className="btn btn-success disabled w-full">Success!</button>
+        ) : (
+          <button
+            onClick={() => {
+              sendSui();
+              setLoading(true);
+            }}
+            className="btn btn-primary w-full"
+          >
+            {loading ? (
+              <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 mr-4" />
+            ) : (
+              "Pay"
+            )}
+          </button>
+        )}
       </div>
     </div>
   );
@@ -133,6 +211,7 @@ const Message = ({
   status,
   show_status,
   receipt,
+  setMessages,
 }: {
   avatar: string;
   start: boolean;
@@ -142,6 +221,7 @@ const Message = ({
   status: string;
   show_status: boolean;
   receipt?: Receipt;
+  setMessages: any;
 }) => {
   return (
     <>
@@ -157,7 +237,7 @@ const Message = ({
             <time className="text-xs opacity-50 ml-2">{time}</time>
           </div>
           <div className="chat-bubble p-0 w-full">
-            <Receipt receipt={receipt} />
+            <Receipt receipt={receipt} setMessages={setMessages} />
           </div>
           {show_status ? (
             <div className="chat-footer opacity-50">
@@ -204,12 +284,12 @@ const Authentication = ({ setEmail, login, loading }: any) => {
     <div className="flex-1 flex flex-col h-full items-center pt-10">
       <img src="/anything.svg" alt="Anything" />
       <div className="flex-1" />
-      {SITE_IS_LIVE ? (
+      {!SITE_IS_LIVE ? (
         <a
           href="https://airtable.com/shr5g54cH7aU8875w"
           target="_blank"
           rel="noopener noreferrer"
-          className="btn btn-secondary mt-2"
+          className="btn btn-secondary mb-10"
         >
           Sign Up For Early Access
         </a>
@@ -241,7 +321,7 @@ const AgentPay = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   // Login State
-  const [loggedIn, setLoggedIn] = useState<boolean>(true);
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
 
@@ -314,7 +394,7 @@ const AgentPay = () => {
             "https://apilgriminnarnia.files.wordpress.com/2017/06/data-star-trek.jpg",
           time: "12:46",
           message:
-            "Here's your receipt. I'll turn on autopay going forward to make it faster if you give me a 5 star review",
+            "Here's your receipt. If you want to make this faster in the future turn on auto-pay in settings. ",
           status: Status.Delivered,
           show_status: false,
         },
@@ -409,6 +489,23 @@ const AgentPay = () => {
     }
   };
 
+  const sendThanks = () => {
+    setMessages((messages) => [
+      ...messages,
+      {
+        id: String(messages.length + 1),
+        start: false,
+        avatar:
+          "https://pbs.twimg.com/profile_images/1650519711593947137/0qNyuwSX_400x400.jpg",
+        name: "Carl",
+        time: "12:45",
+        message: prompt,
+        status: Status.Delivered,
+        show_status: true,
+      },
+    ]);
+  };
+
   return (
     <Container className="mt-20 pb-10 flex flex-row">
       {/* Left */}
@@ -416,7 +513,7 @@ const AgentPay = () => {
         <div className="mockup-phone">
           <div className="camera" />
           <div className="display">
-            <div className="artboard p-2 pt-8 phone-1 bg-gray-900 overflow-y-auto scroll-container">
+            <div className="artboard p-2 pt-8 phone-1 bg-gray-900 overflow-y-auto scroll-container flex flex-col">
               {/* Chat */}
 
               {loggedIn ? (
@@ -434,9 +531,27 @@ const AgentPay = () => {
                           status={message.status}
                           show_status={message.show_status}
                           receipt={message.receipt}
+                          setMessages={setMessages}
                         />
                       ))}
                       <div ref={messagesEndRef} />
+
+                      {/* Send Message Input */}
+                      <div className="flex-1 mt-1" />
+
+                      <div className="flex flex-row ml-1 mb-2">
+                        <input
+                          type="text"
+                          onChange={(e) => {
+                            setPrompt(e.target.value);
+                          }}
+                          placeholder="Type here"
+                          className="input input-bordered rounded-2xl h-10 w-full max-w-xs"
+                        />
+                        <button className=" ml-1" onClick={sendThanks}>
+                          <IoMdSend className="w-10 h-10 text-gray-500" />
+                        </button>
+                      </div>
                     </>
                   ) : (
                     //  empty screen
