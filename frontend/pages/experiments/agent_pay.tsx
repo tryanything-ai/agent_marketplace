@@ -3,6 +3,7 @@ import Container from "@/components/container";
 import { IoMdSend } from "react-icons/io";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import clsx from "clsx";
+import { NextSeo } from "next-seo";
 
 const SITE_IS_LIVE = process.env.NEXT_PUBLIC_VERCEL_ENV === "production";
 
@@ -508,6 +509,26 @@ const AgentPay = () => {
 
   return (
     <Container className="mt-20 pb-10 flex flex-row">
+      <NextSeo
+        title="Anything"
+        openGraph={{
+          title: "Anything",
+          description: "AI Agent Marketplace",
+          images: [
+            {
+              url: "https://qcuguzlfpjtyiloqtysz.supabase.co/storage/v1/object/public/random/anything_agents.png",
+              width: 1200,
+              height: 630,
+              alt: "Og Image Alt",
+              type: "image/jpeg",
+            },
+          ],
+          siteName: "Anything",
+        }}
+        twitter={{
+          cardType: "summary_large_image",
+        }}
+      />
       {/* Left */}
       <div className="flex flex-col w-full">
         <div className="mockup-phone">
