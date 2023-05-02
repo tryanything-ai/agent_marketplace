@@ -284,7 +284,7 @@ const Authentication = ({ setEmail, login, loading }: any) => {
     <div className="flex-1 flex flex-col h-full items-center pt-10">
       <img src="/anything.svg" alt="Anything" />
       <div className="flex-1" />
-      {!SITE_IS_LIVE ? (
+      {SITE_IS_LIVE ? (
         <a
           href="https://airtable.com/shr5g54cH7aU8875w"
           target="_blank"
