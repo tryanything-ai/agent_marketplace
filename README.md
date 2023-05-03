@@ -4,7 +4,9 @@ We have learned our lesson.
 App stores should be free and open.
 Never again.
 
-### Plan
+[Sign up for early access](https://airtable.com/shr5g54cH7aU8875w)
+
+### Plan    
 
 1. Create Database of AI Agents.
 2. Build friendly API for anyone to integrate agent discovery and listing into their systems.
@@ -32,3 +34,9 @@ A free on open marketplace or app store for agents builds a foundation for a hig
 - Reviews
 
 And Anyting that makes that dead simple for builders to leverage everywhere.
+
+### Experiments Folder
+
+This is a folder where we do not beleive in code quality.
+Only experiment quality.
+Just don't leak your private keys.

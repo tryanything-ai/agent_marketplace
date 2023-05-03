@@ -2149,6 +2149,11 @@ fastq@^1.6.0:
   dependencies:
     reusify "^1.0.4"
 
+fflate@^0.4.1:
+  version "0.4.8"
+  resolved "https://registry.yarnpkg.com/fflate/-/fflate-0.4.8.tgz#f90b82aefbd8ac174213abb338bd7ef848f0f5ae"
+  integrity sha512-FJqqoDBR00Mdj9ppamLa/Y7vxm+PRmNWA67N846RvsoYVMKB4q3y/de5PA7gUmRMYK/8CMz2GDZQmCRN1wBcWA==
+
 figures@^3.0.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/figures/-/figures-3.2.0.tgz#625c18bd293c604dc4a8ddb2febf0c88341746af"
@@ -3414,6 +3419,14 @@ postcss@8.4.21, postcss@^8.0.9:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
+posthog-js@^1.55.0:
+  version "1.55.0"
+  resolved "https://registry.yarnpkg.com/posthog-js/-/posthog-js-1.55.0.tgz#c1464cc48e4b20fb4ce224834572ae52c7e78049"
+  integrity sha512-kDqHRM+/nNMnoO4QRkI8S22NjxDmmLV9m+2FqzDJ0os76Icev/xPqEUnWkjeDC8CPj1Ujnj3lwpCqNfil/eQig==
+  dependencies:
+    fflate "^0.4.1"
+    rrweb-snapshot "^1.1.14"
+
 preact-render-to-string@^5.1.19:
   version "5.2.6"
   resolved "https://registry.yarnpkg.com/preact-render-to-string/-/preact-render-to-string-5.2.6.tgz#0ff0c86cd118d30affb825193f18e92bd59d0604"
@@ -3635,6 +3648,11 @@ rpc-websockets@^7.5.1:
   optionalDependencies:
     bufferutil "^4.0.1"
     utf-8-validate "^5.0.2"
+
+rrweb-snapshot@^1.1.14:
+  version "1.1.14"
+  resolved "https://registry.yarnpkg.com/rrweb-snapshot/-/rrweb-snapshot-1.1.14.tgz#9d4d9be54a28a893373428ee4393ec7e5bd83fcc"
+  integrity sha512-eP5pirNjP5+GewQfcOQY4uBiDnpqxNRc65yKPW0eSoU1XamDfc4M8oqpXGMyUyvLyxFDB0q0+DChuxxiU2FXBQ==
 
 run-async@^2.4.0:
   version "2.4.1"
