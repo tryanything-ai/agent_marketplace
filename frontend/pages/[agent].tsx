@@ -12,7 +12,7 @@ import {
 } from "@supabase/auth-helpers-react";
 import Layout from "@/components/layout";
 import Container from "@/components/container";
-type Agent = Database["public"]["Tables"]["agents"]["Row"];
+type Agent = Database["public"]["Tables"]["items"]["Row"];
 
 const Agent = () => {
   //check for slug
@@ -22,7 +22,7 @@ const Agent = () => {
 
   const fetchAgent = async () => {
     const { data, error } = await supabase
-      .from("agents")
+      .from("items")
       .select("*")
       .eq("slug", slug);
 
@@ -58,7 +58,7 @@ const Agent = () => {
           <div className="h-40 card bg-base-300 rounded-box flex flex-row border border-1 border-opacity-40">
             <img
               className="rounded-full h-23 w-32 m-4 border border-1 "
-              src={agent.avatar_url}
+              src={agent.avatar_url!}
             />
             <div className="flex-col my-auto pl-10">
               <p className="text-5xl pb-2 text-white">{agent.name}</p>
@@ -67,7 +67,7 @@ const Agent = () => {
           </div>
           <div className="divider">Details</div>
           <div className="grid p-4 card bg-base-300 rounded-box border border-1 text-white text-xl">
-            <div>Site: {agent.external_url}</div>
+            {/* <div>Site: {agent.external_url!}</div> */}
             <div>
               Pricing: <span className="badge badge-info">Coming Soon</span>
             </div>

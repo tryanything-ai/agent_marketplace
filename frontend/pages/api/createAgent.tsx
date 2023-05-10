@@ -41,7 +41,7 @@ const createAgent = async ({
     let slug = slugify(name, { lower: true });
 
     let { data, error } = await supabaseServer
-      .from("agents")
+      .from("items")
       .insert({
         avatar_url,
         description,

@@ -21,7 +21,7 @@ const getAgents = async (page: number, size: number): Promise<ApiResponse> => {
   const offset = (page - 1) * size;
 
   const { data: agents, error: fetchError } = await supabaseServer
-    .from("agents")
+    .from("items")
     .select("*")
     .range(offset, offset + size - 1);
 
@@ -31,7 +31,7 @@ const getAgents = async (page: number, size: number): Promise<ApiResponse> => {
   }
 
   const { count, error: countError } = await supabaseServer
-    .from("agents")
+    .from("items")
     .select("*", { count: "exact", head: true });
 
   if (countError) {

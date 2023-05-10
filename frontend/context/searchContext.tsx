@@ -49,7 +49,7 @@ export default function SearchProvider({ children }: SeachProvderProps) {
       console.log("Searching for " + searchValue);
 
       let query = supabase
-        .from("agents")
+        .from("items")
         .select("*")
         .ilike("name", `%${searchValue}%`);
 
