@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { supabaseServer } from "../../utils/supabaseServer";
 import { Database } from "../../utils/database.types";
-type Agent = Database["public"]["Tables"]["agents"]["Row"];
-type InsertAgent = Database["public"]["Tables"]["agents"]["Insert"];
+type Agent = Database["public"]["Tables"]["items"]["Row"];
+type InsertAgent = Database["public"]["Tables"]["items"]["Insert"];
 import slugify from "slugify";
 
 import { object, number, string, boolean, ObjectSchema } from "yup";

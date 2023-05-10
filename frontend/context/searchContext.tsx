@@ -7,7 +7,7 @@ import React, {
 } from "react";
 
 import { Database } from "../utils/database.types";
-type Agent = Database["public"]["Tables"]["agents"]["Row"];
+type Agent = Database["public"]["Tables"]["items"]["Row"];
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
 export interface SearchContext {
@@ -58,7 +58,7 @@ export default function SearchProvider({ children }: SeachProvderProps) {
         throw error;
       }
 
-      setAgents(data);
+      // setAgents(data);
     } catch (e) {
       console.log(e);
     }
