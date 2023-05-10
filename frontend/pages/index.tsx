@@ -1,6 +1,5 @@
 import Layout from "@/components/layout";
-import Search from "@/components/search";
-import Link from "next/link";
+
 import { Database } from "../utils/database.types";
 type Item = Database["public"]["Tables"]["items"]["Row"];
 import { supabaseServer } from "../utils/supabaseServer";

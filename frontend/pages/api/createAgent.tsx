@@ -11,13 +11,13 @@ const insertAgentSchema = object({
   avatar_url: string().required(),
   // created_at: string().nullable(),
   description: string().required(),
-  external_url: string().required(),
+  // external_url: string().required(),
   // fake: boolean(),
   // id: number(),
   name: string().required(),
-  price_description: string().nullable(),
-  price: number().nullable(),
-  slug: string().required(),
+  // price_description: string().nullable(),
+  // price: number().nullable(),
+  // slug: string().required(),
   // user_id: string().required(),
   creator_email: string().required(),
 });
@@ -25,31 +25,27 @@ const insertAgentSchema = object({
 const createAgent = async ({
   avatar_url,
   description,
-  external_url,
+  // external_url,
   name,
   price_description,
   price,
 }: {
   avatar_url: string;
   description: string;
-  external_url: string;
+  // external_url: string;
   name: string;
   price_description: string;
   price: string;
 }): Promise<any | string> => {
   try {
-    let slug = slugify(name, { lower: true });
+    // let slug = slugify(name, { lower: true });
 
     let { data, error } = await supabaseServer
       .from("items")
       .insert({
         avatar_url,
         description,
-        external_url,
         name,
-        price_description,
-        price,
-        slug,
       })
       .select();
 
@@ -73,25 +69,14 @@ export default async function handler(
     return;
   }
 
-  const {
-    avatar_url,
-    description,
-    external_url,
-    name,
-    price_description,
-    price,
-    slug,
-  }: InsertAgent = req.body;
+  const { avatar_url, description, name }: InsertAgent = req.body;
 
   try {
     let obj: any = {
       avatar_url,
       description,
-      external_url,
+
       name,
-      price_description,
-      price,
-      slug,
     };
 
     await insertAgentSchema.validate(obj);
