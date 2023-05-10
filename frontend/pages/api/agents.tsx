@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { supabaseServer } from "../../utils/supabaseServer";
 import { Database } from "../../utils/database.types";
-type Agent = Database["public"]["Tables"]["agents"]["Row"];
+type Agent = Database["public"]["Tables"]["items"]["Row"];
 
 type PageInfo = {
   currentPage: number;

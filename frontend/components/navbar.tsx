@@ -29,9 +29,9 @@ const Navbar = () => {
             />
           </a>
 
-          <a href="https://airtable.com/shrjY7LMyMPfJ3SGC">
+          {/* <a href="https://airtable.com/shrjY7LMyMPfJ3SGC">
             <li className=" btn btn-primary mr-2">List Agent</li>
-          </a>
+          </a> */}
 
           {/* https://airtable.com/shr5g54cH7aU8875w */}
           {/* <SignInButton className="btn btn-primary">Sign Up</SignInButton> */}

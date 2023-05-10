@@ -5,9 +5,10 @@ import { AppProps } from "next/app";
 import "../styles/globals.css";
 import SearchProvider from "@/context/searchContext";
 import { EthosConnectProvider } from "ethos-connect";
+
 import { useRouter } from "next/router";
 import posthog from "posthog-js";
-import { PostHogProvider } from "posthog-js/react";
+import { PostHogProvider } from "posthog-js/react"; 
 
 const ETHOS_API_KEY = process.env.NEXT_PUBLIC_ETHOS_API_KEY;
 
