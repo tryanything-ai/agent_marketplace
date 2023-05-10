@@ -1,4 +1,4 @@
-import Search from "./search";
+// import Search from "./search";
 
 const Marketplace = () => {
   return (
@@ -12,7 +12,7 @@ const Marketplace = () => {
               Anything
             </span>
           </h1>
-          <Search className="w-full" mobile={false} />
+          {/* <Search className="w-full" mobile={false} /> */}
           {/* <button className="btn btn-primary">Get Started</button> */}
         </div>
       </div>
