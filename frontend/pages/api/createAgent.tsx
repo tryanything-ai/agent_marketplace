@@ -75,7 +75,6 @@ export default async function handler(
     let obj: any = {
       avatar_url,
       description,
-
       name,
     };
 

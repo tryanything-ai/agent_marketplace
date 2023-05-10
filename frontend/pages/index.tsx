@@ -61,21 +61,24 @@ const Home = ({ items }: { items: Item[] }) => {
           return (
             <div
               key={item.id}
-              className="h-32 bg-base-300 p-2 border border-1 rounded-md mb-3 flex flex-row"
+              className="h-32 bg-base-200 border border-1 rounded-md mb-3 flex flex-row"
             >
               <img
-                className="rounded-full h-14 w-14 m-2 ml-5 border border-1"
+                className="rounded-full h-14 w-14 m-2 ml-2 border border-1"
                 src={item.avatar_url!}
                 alt="item.name"
               />
-              <div className="flex flex-col">
+              <div className="flex flex-col truncate text-ellipsis">
                 <a
                   href={item.external_unique_id!}
-                  className="link text-2xl mt-4 ml-3 truncate"
+                  className="link text-lg md:text-2xl mt-4 ml-3 line-clamp-1 truncate text-ellipsis "
                 >
                   {item.name}
                 </a>
-                <div className="mt-4 ml-3">{item.description}</div>
+
+                <div className="mt-4 ml-3 pr-2 whitespace-normal break-words line-clamp-2">
+                  {item.description}
+                </div>
               </div>
             </div>
           );
