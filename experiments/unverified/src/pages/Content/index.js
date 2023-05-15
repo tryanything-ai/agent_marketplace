@@ -1,57 +1,6 @@
-// import { makeMarketplace } from './modules/make_marketetplace';
-
-console.log('Anything Content Script Running');
-
-const fakeData = [
-  {
-    avatar_url: 'https://i.pravatar.cc/150?img=1',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    url: 'https://www.example.com/1',
-    title: 'Example Title 1',
-  },
-  {
-    avatar_url: 'https://i.pravatar.cc/150?img=2',
-    description:
-      'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    url: 'https://www.example.com/2',
-    title: 'Example Title 2',
-  },
-  {
-    avatar_url: 'https://i.pravatar.cc/150?img=3',
-    description:
-      'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    url: 'https://www.example.com/3',
-    title: 'Example Title 3',
-  },
-  {
-    avatar_url: 'https://i.pravatar.cc/150?img=4',
-    description:
-      'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
-    url: 'https://www.example.com/4',
-    title: 'Example Title 4',
-  },
-  {
-    avatar_url: 'https://i.pravatar.cc/150?img=5',
-    description:
-      'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    url: 'https://www.example.com/5',
-    title: 'Example Title 5',
-  },
-  {
-    avatar_url: 'https://i.pravatar.cc/150?img=6',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    url: 'https://www.example.com/6',
-    title: 'Example Title 6',
-  },
-  {
-    avatar_url: 'https://i.pravatar.cc/150?img=7',
-    description:
-      'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    url: 'https://www.example.com/7',
-    title: 'Example Title 7',
-  },
-];
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Marketplace } from './components/marketplace';
 
 let updatingDom = false;
 
@@ -67,19 +16,10 @@ window.addEventListener('load', function () {
       if (dialog && !updatingDom) {
         //only check if we are not on the plug page.
         for (const div of document.querySelectorAll('button')) {
-          // if (div.textContent.includes('Install an unverified plugin')) {
-          //   updatingDom = true;
-          //   console.log('On PluginPage');
-          //   setDom();
-          // }
-          // if (div.id !== 'custom') {
-          //prevent infinite loop as we add stuff.
-
           if (div.textContent.includes('All plugins')) {
             console.log('On PluginPage');
             setDom(div.parentNode);
           }
-          // }
         }
       }
     };
@@ -98,7 +38,7 @@ function setDom(parent) {
   updatingDom = true;
   let div = parent;
   console.log('Update Dom Here');
-  const dialog = document.querySelector('div[role="dialog"]');
+  // const dialog = document.querySelector('div[role="dialog"]');
   // dialog.classList.add('bg-pink-200');
   // dialog.classList.add('dark:bg-gray-50');
   // dialog.style.boer = '#ffb6c1';
@@ -119,13 +59,40 @@ function setDom(parent) {
     'text-black/50'
   );
   button.textContent = 'Unverified Plugins';
-  button.style.border = '2px solid purple';
+  button.style.border = '2px solid pink';
+  button.id = 'unverified';
+
+  button.onclick = function () {
+    // Code to be executed when the button is clicked
+    // alert('Button clicked!');
+    let outer = div.parentNode;
+    let marketplace = outer.querySelector('div:nth-child(2)');
+    marketplace.style.backgroundColor = 'orange';
+
+    //replace
+    let container = document.createElement('div');
+
+    ReactDOM.render(
+      React.createElement(
+        Marketplace,
+        null,
+        // {
+        //   sentences: sentenceArray,
+        //   inputHTML: element,
+        //   shouldTranslate,
+        // },
+        null
+      ),
+      container
+    );
+
+    marketplace.replaceWith(container);
+  };
+
   div.appendChild(button);
+
   //TODO: need to make it so when you leave and come back it gets fired again.
 
-  let outer = div.parentNode;
-  let marketplace = outer.querySelector('div:nth-child(2)');
-  marketplace.style.backgroundColor = 'orange';
   //TODO: replace this div with something else when we select the button
 
   return null;
