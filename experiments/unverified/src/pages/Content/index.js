@@ -53,29 +53,34 @@ const fakeData = [
   },
 ];
 
-let onPluginPage = false;
+let updatingDom = false;
 
 // Wait for the DOM to be ready
 window.addEventListener('load', function () {
   console.log('loaded');
+  console.log('updating dom ?=> ', updatingDom);
   if (window.location.href === 'https://chat.openai.com/?model=gpt-4-plugins') {
     const dialog = document.querySelectorAll('[role="dialog"]');
 
     // Callback function to execute when mutations are observed
     const callback = function (mutationsList, observer) {
-      if (dialog) {
+      if (dialog && !updatingDom) {
         //only check if we are not on the plug page.
         for (const div of document.querySelectorAll('button')) {
-          if (div.textContent.includes('Install an unverified plugin')) {
-            onPluginPage = true;
+          // if (div.textContent.includes('Install an unverified plugin')) {
+          //   updatingDom = true;
+          //   console.log('On PluginPage');
+          //   setDom();
+          // }
+          // if (div.id !== 'custom') {
+          //prevent infinite loop as we add stuff.
+
+          if (div.textContent.includes('All plugins')) {
             console.log('On PluginPage');
-            setDom();
+            setDom(div.parentNode);
           }
+          // }
         }
-      } else {
-        //TODO: figure out how to mark we are not on page maybe
-        console.log('NOT on plugin page');
-        onPluginPage = false;
       }
     };
 
@@ -89,14 +94,39 @@ window.addEventListener('load', function () {
   }
 });
 
-function setDom() {
+function setDom(parent) {
+  updatingDom = true;
+  let div = parent;
   console.log('Update Dom Here');
   const dialog = document.querySelector('div[role="dialog"]');
   // dialog.classList.add('bg-pink-200');
   // dialog.classList.add('dark:bg-gray-50');
   // dialog.style.boer = '#ffb6c1';
-  dialog.style.border = '2px solid purple';
-  dialog.style.backgroundImage =
-    'linear-gradient(45deg, rgba(255,255,255,0.1) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.1) 75%, transparent 75%, transparent)';
+  // dialog.style.border = '2px solid purple';
+  // dialog.style.backgroundImage =
+  //   'linear-gradient(45deg, rgba(255,255,255,0.1) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.1) 75%, transparent 75%, transparent)';
+
+  // const secondDiv = dialog.querySelectorAll('div')[2];
+  // div.style.backgroundColor = 'orange';
+
+  const button = document.createElement('button');
+  button.id = 'custom';
+  button.classList.add(
+    'btn',
+    'relative',
+    'btn-neutral',
+    'focus:ring-0',
+    'text-black/50'
+  );
+  button.textContent = 'Unverified Plugins';
+  button.style.border = '2px solid purple';
+  div.appendChild(button);
+  //TODO: need to make it so when you leave and come back it gets fired again.
+
+  let outer = div.parentNode;
+  let marketplace = outer.querySelector('div:nth-child(2)');
+  marketplace.style.backgroundColor = 'orange';
+  //TODO: replace this div with something else when we select the button
+
   return null;
 }
