@@ -2,19 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Marketplace } from './components/marketplace';
 
-// let updatingDom = false;
-console.log('in the scripts');
-
 // Wait for the DOM to be ready
 window.addEventListener('load', function () {
   console.log('loaded');
-  // console.log('updating dom ?=> ', updatingDom);
+
   if (window.location.origin === 'https://chat.openai.com') {
     // Callback function to execute when mutations are observed
     const callback = function (mutationsList, observer) {
       const dialog = document.querySelectorAll('[role="dialog"]');
       const ourButton = document.querySelector('#unverified');
-      // console.log('updating dom ?=> ', updatingDom);
+
       if (dialog && !ourButton) {
         //only check if we are not on the plug page.
         for (const div of document.querySelectorAll('button')) {
@@ -37,7 +34,7 @@ window.addEventListener('load', function () {
 });
 
 function setDom(parent) {
-  // updatingDom = true;
+  console.log('Setting Marketplace Dom');
   let div = parent;
 
   let outer = div.parentNode;
@@ -50,9 +47,8 @@ function setDom(parent) {
   // paginationAnd.style.backgroundColor = 'pink';
   // console.log(paginationAnd);
 
-  const originalMarketplace = null;
-
-  console.log('Updating Dom');
+  const originalMarketplace = marketplace.cloneNode(true);
+  const originalButtons = div.cloneNode(true);
 
   const button = document.createElement('button');
 
@@ -67,41 +63,70 @@ function setDom(parent) {
   button.style.border = '2px solid purple';
 
   button.id = 'unverified';
+  button.classList.add('closed');
+
+  //replace
+  let container = document.createElement('div');
 
   button.onclick = function () {
-    //modify other buttons to look the same
-    let buttons = div.querySelectorAll('button');
+    if (button.classList.contains('closed')) {
+      //modify other buttons to look the same
+      let buttons = div.querySelectorAll('button');
 
-    for (const button of buttons) {
-      //add onclick handlers that will "un-remove the marketplace"
-      // console.log(button);
-      if (button.textContent.includes('Unverified Plugins ✨')) {
-        //leave this button alone
-      } else {
-        // button.style.hidden = true;
-        button.classList.remove('btn-light', 'hover:bg-gray-200');
-        button.classList.add('btn-neutral', 'text-black/50'); //make the previous button neutral
+      for (const button of buttons) {
+        //add onclick handlers that will "un-remove the marketplace"
+        // console.log(button);
+        if (button.textContent.includes('Unverified Plugins ✨')) {
+          //leave this button alone
+        } else {
+          button.style.display = 'none';
+          // button.style.hidden = true;
+          // button.classList.remove('btn-light', 'hover:bg-gray-200');
+          // button.classList.add('btn-neutral', 'text-black/50'); //make the previous button neutral
+        }
+      }
+
+      //change button to say "go-back"
+      button.textContent = 'Go Back';
+      button.classList.remove('closed');
+      button.classList.add('open');
+
+      ReactDOM.render(
+        React.createElement(
+          Marketplace,
+          null,
+          // { //TODO: maybe add pagination?
+          //   sentences: sentenceArray,
+          //   inputHTML: element,
+          //   shouldTranslate,
+          // },
+          null
+        ),
+        container
+      );
+
+      // marketplace.replaceWith(container);
+      marketplace.style.display = 'none';
+    } else {
+      //we are open so we need to close
+      // container.replaceWith(originalMarketplace);
+      marketplace.style.display = 'grid';
+      let buttons = div.querySelectorAll('button');
+
+      for (const button of buttons) {
+        //add onclick handlers that will "un-remove the marketplace"
+        // console.log(button);
+        if (button.textContent.includes('Go Back')) {
+          //leave this button alone
+          button.textContent = 'Unverified Plugins ✨';
+        } else {
+          button.style.display = 'block';
+          // button.style.hidden = true;
+          // button.classList.remove('btn-light', 'hover:bg-gray-200');
+          // button.classList.add('btn-neutral', 'text-black/50'); //make the previous button neutral
+        }
       }
     }
-
-    //replace
-    let container = document.createElement('div');
-
-    ReactDOM.render(
-      React.createElement(
-        Marketplace,
-        null,
-        // { //TODO: maybe add pagination?
-        //   sentences: sentenceArray,
-        //   inputHTML: element,
-        //   shouldTranslate,
-        // },
-        null
-      ),
-      container
-    );
-
-    marketplace.replaceWith(container);
   };
 
   div.appendChild(button);
