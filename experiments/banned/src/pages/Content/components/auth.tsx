@@ -52,9 +52,9 @@ const SignIn = () => {
   };
 
   return (
-    <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
+    <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
       {/* register your input into the hook by invoking the "register" function */}
-      <label className="block text-xs font-medium text-gray-900 dark:text-gray-100">
+      <label className="block text-xs mb-1 font-medium text-gray-900 dark:text-gray-100">
         Email
       </label>
       <input
@@ -62,19 +62,28 @@ const SignIn = () => {
         defaultValue=""
         {...register('email', { required: true })}
       />
-
+      {/* errors will return when field validation fails  */}
+      {errors.email && <span>This field is required</span>}
+      <div className="h-4" />
       {/* include validation with required or other standard HTML validation rules */}
-      <label className="block text-xs font-medium text-gray-900 dark:text-gray-100">
+
+      <label className="block mb-1 text-xs font-medium text-gray-900 dark:text-gray-100">
         Password
       </label>
       <input
         className="rounded-md border border-gray-300 px-3 py-2 shadow-sm focus-within:border-indigo-600 focus-within:ring-1 focus-within:ring-indigo-600 dark:bg-gray-700"
         {...register('password', { required: true, minLength: 6 })}
       />
+
       {/* errors will return when field validation fails  */}
       {errors.password && <span>This field is required</span>}
-
-      <button type="submit">Sign In</button>
+      <div className="h-4" />
+      {/* <button type="submit">Sign In</button> */}
+      <button type="submit" className="btn relative btn-primary">
+        <div className="flex w-full gap-2 items-center justify-center">
+          Sign In
+        </div>
+      </button>
     </form>
   );
 };
@@ -130,8 +139,14 @@ const Auth = () => {
           alt="anything logo"
         /> */}
       </div>
-      <div className="flex-1">
+      <div className="flex-1 flex flex-col">
         {option === Options.signin ? <SignIn /> : <SignUp />}
+        <div className="text-center">- or -</div>
+        {option === Options.signin ? (
+          <button onClick={() => setOption(Options.signup)}>Sign Up</button>
+        ) : (
+          <button onClick={() => setOption(Options.signin)}>Sing In</button>
+        )}
       </div>
     </div>
   );

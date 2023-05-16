@@ -18,7 +18,7 @@ window.addEventListener('load', function () {
         //only check if we are not on the plug page.
         for (const div of document.querySelectorAll('button')) {
           if (div.textContent.includes('All plugins')) {
-            console.log('On PluginPage');
+            console.log('On Plugin Page');
             setDom(div.parentNode);
           }
         }
@@ -38,20 +38,11 @@ window.addEventListener('load', function () {
 function setDom(parent) {
   updatingDom = true;
   let div = parent;
-  console.log('Update Dom Here');
-  // const dialog = document.querySelector('div[role="dialog"]');
-  // dialog.classList.add('bg-pink-200');
-  // dialog.classList.add('dark:bg-gray-50');
-  // dialog.style.boer = '#ffb6c1';
-  // dialog.style.border = '2px solid purple';
-  // dialog.style.backgroundImage =
-  //   'linear-gradient(45deg, rgba(255,255,255,0.1) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.1) 75%, transparent 75%, transparent)';
 
-  // const secondDiv = dialog.querySelectorAll('div')[2];
-  // div.style.backgroundColor = 'orange';
+  console.log('Updating Dom');
 
   const button = document.createElement('button');
-  button.id = 'custom';
+
   button.classList.add(
     'btn',
     'relative',
@@ -61,16 +52,34 @@ function setDom(parent) {
   );
   button.textContent = 'Unverified Plugins ✨';
   button.style.border = '2px solid purple';
-  // button.style.backgroundColor = 'pink';
+
   button.id = 'unverified';
 
   button.onclick = function () {
-    // Code to be executed when the button is clicked
-    // alert('Button clicked!');
-    let outer = div.parentNode;
-    let marketplace = outer.querySelector('div:nth-child(2)');
-    marketplace.style.backgroundColor = 'orange';
+    //modify other buttons
+    let buttons = div.querySelectorAll('button');
 
+    for (const button of buttons) {
+      console.log(button);
+      if (button.textContent.includes('Unverified Plugins ✨')) {
+        //leave this button alone
+      } else {
+        button.classList.remove('btn-light', 'hover:bg-gray-200');
+        button.classList.add('btn-neutral', 'text-black/50'); //make the previous button neutral
+      }
+    }
+
+    //add marketplace when clicked
+
+    let outer = div.parentNode;
+    console.log('outer');
+    console.log(outer);
+    let marketplace = outer.children[1];
+    // marketplace.style.backgroundColor = 'orange';
+
+    let paginationAnd = outer.children[2];
+    console.log(paginationAnd);
+    // paginationAnd.style.backgroundColor = 'pink';
     //replace
     let container = document.createElement('div');
 
@@ -78,7 +87,7 @@ function setDom(parent) {
       React.createElement(
         Marketplace,
         null,
-        // {
+        // { //TODO: maybe add pagination?
         //   sentences: sentenceArray,
         //   inputHTML: element,
         //   shouldTranslate,
