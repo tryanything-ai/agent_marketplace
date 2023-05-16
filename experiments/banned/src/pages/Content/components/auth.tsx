@@ -52,15 +52,25 @@ const SignIn = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
       {/* register your input into the hook by invoking the "register" function */}
+      <label className="block text-xs font-medium text-gray-900 dark:text-gray-100">
+        Email
+      </label>
       <input
-        defaultValue="carl@tryanything.xyz"
+        className="rounded-md border border-gray-300 px-3 py-2 shadow-sm focus-within:border-indigo-600 focus-within:ring-1 focus-within:ring-indigo-600 dark:bg-gray-700"
+        defaultValue=""
         {...register('email', { required: true })}
       />
 
       {/* include validation with required or other standard HTML validation rules */}
-      <input {...register('password', { required: true, minLength: 6 })} />
+      <label className="block text-xs font-medium text-gray-900 dark:text-gray-100">
+        Password
+      </label>
+      <input
+        className="rounded-md border border-gray-300 px-3 py-2 shadow-sm focus-within:border-indigo-600 focus-within:ring-1 focus-within:ring-indigo-600 dark:bg-gray-700"
+        {...register('password', { required: true, minLength: 6 })}
+      />
       {/* errors will return when field validation fails  */}
       {errors.password && <span>This field is required</span>}
 
@@ -108,8 +118,21 @@ const SignUp = () => {
 const Auth = () => {
   const [option, setOption] = useState<Options>(Options.signin);
   return (
-    <div className="h-32 bg-pink-200" style={{ backgroundColor: 'pink' }}>
-      {option === Options.signin ? <SignIn /> : <SignUp />}
+    <div
+      className="p-4 sm:p-6 sm:pt-4 flex flex-row"
+      style={{ backgroundColor: 'blue' }}
+    >
+      <div className="flex-1 text-2xl">
+        Anything <span className="underline">Unverified </span>Plugins
+        Marketplace
+        {/* <img
+          src="https://qcuguzlfpjtyiloqtysz.supabase.co/storage/v1/object/public/random/anything.svg"
+          alt="anything logo"
+        /> */}
+      </div>
+      <div className="flex-1">
+        {option === Options.signin ? <SignIn /> : <SignUp />}
+      </div>
     </div>
   );
 };
