@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from './card';
+import { Session } from '@supabase/supabase-js';
+import { supabase } from '../../../../utils/supabase';
+
+import Auth from './auth';
 
 const fakeData = [
   {
@@ -66,23 +70,75 @@ const fakeData = [
 //   return <div dangerouslySetInnerHTML={{ __html: inputHTML.innerHTML }} />;
 // };
 
-export const Marketplace: React.FC = () => {
-  let [seeOriginalHTML, setSeeOriginalHTML] = useState(false);
-  let [insideParagraph, setInsidParagraph] = useState(false);
+export const Marketplace = () => {
+  const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  return (
-    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:grid-rows-2 lg:grid-cols-3 xl:grid-cols-4">
-      {fakeData.map((item, index) => {
-        return (
-          <Card
-            key={index}
-            imageUrl={item.avatar_url}
-            title={item.title}
-            description={item.description}
-            url={item.url}
-          />
-        );
-      })}
-    </div>
-  );
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  if (!session) {
+    // return
+    //TODO:
+    return (
+      <Auth />
+      // <AuthForm />
+      // <div className="p-4 sm:p-6 sm:pt-4">
+      //   <div className="mt-4 flex flex-col gap-4">
+      //     <div>Anyything Unverified Plugins Store</div>
+      //     <div className="rounded-md border border-gray-300 px-3 py-2 shadow-sm focus-within:border-indigo-600 focus-within:ring-1 focus-within:ring-indigo-600 dark:bg-gray-700">
+      //       <label className="block text-xs font-medium text-gray-900 dark:text-gray-100"></label>
+      //       <div className="relative">
+      //         <input
+      //           name="url"
+      //           id="url"
+      //           className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 outline-none focus:ring-0 dark:bg-gray-700 dark:text-gray-100 sm:text-sm"
+      //           placeholder="openai.com"
+      //           value=""
+      //         />
+      //       </div>
+      //     </div>
+      //   </div>
+      //   <div className="flex flex-col gap-3 sm:flex-row-reverse mt-5 sm:mt-4">
+      //     <button className="btn relative btn-primary">
+      //       <div className="flex w-full gap-2 items-center justify-center">
+      //         Find plugin
+      //       </div>
+      //     </button>
+      //     <button className="btn relative btn-neutral">
+      //       <div className="flex w-full gap-2 items-center justify-center">
+      //         Cancel
+      //       </div>
+      //     </button>
+      //   </div>
+      // </div>
+    );
+  } else {
+    return (
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:grid-rows-2 lg:grid-cols-3 xl:grid-cols-4">
+        {fakeData.map((item, index) => {
+          return (
+            <Card
+              key={index}
+              imageUrl={item.avatar_url}
+              title={item.title}
+              description={item.description}
+              url={item.url}
+            />
+          );
+        })}
+      </div>
+    );
+  }
 };
