@@ -129,7 +129,7 @@ const Auth = () => {
   return (
     <div
       className="p-4 sm:p-6 sm:pt-4 flex flex-row"
-      style={{ backgroundColor: 'blue' }}
+      // style={{ backgroundColor: 'blue' }}
     >
       <div className="flex-1 text-2xl">
         Anything <span className="underline">Unverified </span>Plugins
