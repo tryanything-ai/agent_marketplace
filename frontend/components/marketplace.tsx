@@ -1,8 +1,5 @@
-// import Search from "./search";
-
 const Marketplace = () => {
   return (
-    // <Container>
     <div className="hero min-h-screen">
       <div className="hero-content text-center">
         <div className="max-w-md">
@@ -17,7 +14,6 @@ const Marketplace = () => {
         </div>
       </div>
     </div>
-    // </Container>
   );
 };
 
