@@ -43,9 +43,9 @@ const Layout = ({ children }: { children: any }) => {
           <Link href="/os-plugins" className="link link-hover">
             All Open Source Plugins
           </Link>
-          <a href="/experiments/agent_pay" className="link link-hover">
+          <Link href="/experiments/agent_pay" className="link link-hover">
             Agent To Agent Payments
-          </a>
+          </Link>
           {/* <a className="link link-hover">Marketing</a>
           <a className="link link-hover">Advertisement</a> */}
         </div>
