@@ -1,11 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "Chrome Extension with React & Webpack",
-  "description": "A chrome extension boilerplate built with React 18, Webpack 5, and Webpack Dev Server 4",
+  "name": "Unlisted ChatGPT Plugins Extension",
+  "description": "Find and Install Unlisted ChatGPT Plugins inside ChatGPT",
   "options_page": "options.html",
-  "background": { "service_worker": "background.bundle.js" },
   "action": {
-    "default_popup": "popup.html",
     "default_icon": "icon-48.png"
   },
   "icons": {
@@ -18,7 +16,6 @@
       "css": ["content.styles.css"]
     }
   ],
-  "devtools_page": "devtools.html",
   "web_accessible_resources": [
     {
       "resources": ["content.styles.css", "icon-128.png", "icon-48.png"],

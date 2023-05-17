@@ -5,19 +5,16 @@ const Navbar = () => {
   return (
     <div className="navbar bg-base-100 fixed top-0 left-0 w-full z-50">
       <div className="flex-1">
-        <Link
-          href="/"
-          className="btn btn-ghost normal-case text-3xl text-white"
-        >
+        <Link href="/" className="">
           <img
             src="./anything.svg"
             alt="anything"
-            className="h-10 w-10 md:hidden"
+            className="h-14 w-14 md:hidden"
           />
           <img
             src="./anything-wide.svg"
             alt="anything"
-            className="h-20 w-60 md:block hidden -mt-3"
+            className="ml-4 w-60 md:block hidden"
           />
         </Link>
       </div>
