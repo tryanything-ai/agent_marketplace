@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Marketplace } from './components/marketplace';
+import { App } from './components/app';
 
 // Wait for the DOM to be ready
 window.addEventListener('load', function () {
@@ -88,7 +88,7 @@ function setDom(parent) {
 
       ReactDOM.render(
         React.createElement(
-          Marketplace,
+          App,
           null,
           // { //TODO: maybe add pagination?
           //   sentences: sentenceArray,
