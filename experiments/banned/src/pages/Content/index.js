@@ -41,14 +41,11 @@ function setDom(parent) {
   console.log('outer');
   console.log(outer);
   let marketplace = outer.children[1];
-  // marketplace.style.backgroundColor = 'orange';
 
   let paginationAnd = outer.children[2];
-  // paginationAnd.style.backgroundColor = 'pink';
-  // console.log(paginationAnd);
 
-  const originalMarketplace = marketplace.cloneNode(true);
-  const originalButtons = div.cloneNode(true);
+  // const originalMarketplace = marketplace.cloneNode(true);
+  // const originalButtons = div.cloneNode(true);
 
   const button = document.createElement('button');
 
@@ -67,6 +64,7 @@ function setDom(parent) {
 
   //replace
   let container = document.createElement('div');
+  container.id = 'marketplace-container';
 
   button.onclick = function () {
     if (button.classList.contains('closed')) {
@@ -75,14 +73,11 @@ function setDom(parent) {
 
       for (const button of buttons) {
         //add onclick handlers that will "un-remove the marketplace"
-        // console.log(button);
+
         if (button.textContent.includes('Unverified Plugins ✨')) {
           //leave this button alone
         } else {
           button.style.display = 'none';
-          // button.style.hidden = true;
-          // button.classList.remove('btn-light', 'hover:bg-gray-200');
-          // button.classList.add('btn-neutral', 'text-black/50'); //make the previous button neutral
         }
       }
 
@@ -106,34 +101,30 @@ function setDom(parent) {
       );
 
       // marketplace.replaceWith(container);
+      // marketplace.appendChild(container);
+      outer.insertBefore(container, paginationAnd);
       marketplace.style.display = 'none';
     } else {
       //we are open so we need to close
       // container.replaceWith(originalMarketplace);
       marketplace.style.display = 'grid';
       let buttons = div.querySelectorAll('button');
+      container.remove();
 
       for (const button of buttons) {
         //add onclick handlers that will "un-remove the marketplace"
-        // console.log(button);
+
         if (button.textContent.includes('Go Back')) {
           //leave this button alone
           button.textContent = 'Unverified Plugins ✨';
+          button.classList.remove('open');
+          button.classList.add('closed');
         } else {
           button.style.display = 'block';
-          // button.style.hidden = true;
-          // button.classList.remove('btn-light', 'hover:bg-gray-200');
-          // button.classList.add('btn-neutral', 'text-black/50'); //make the previous button neutral
         }
       }
     }
   };
 
   div.appendChild(button);
-
-  //TODO: need to make it so when you leave and come back it gets fired again.
-
-  //TODO: replace this div with something else when we select the button
-
-  return null;
 }
