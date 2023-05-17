@@ -9,7 +9,16 @@ const Navbar = () => {
           href="/"
           className="btn btn-ghost normal-case text-3xl text-white"
         >
-          Anything
+          <img
+            src="./anything.svg"
+            alt="anything"
+            className="h-10 w-10 md:hidden"
+          />
+          <img
+            src="./anything-wide.svg"
+            alt="anything"
+            className="h-20 w-60 md:block hidden -mt-3"
+          />
         </Link>
       </div>
 
