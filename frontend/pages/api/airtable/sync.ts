@@ -26,7 +26,7 @@ export default async function handler(
         external_unique_id: req.body.airtable_id,
         name: req.body.name,
         description: req.body.description,
-        avatar_url: req.body.avatar,
+        avatar_url: req.body.avatar_url,
         url: req.body.url,
       },
       { ignoreDuplicates: false, onConflict: "external_unique_id" }
