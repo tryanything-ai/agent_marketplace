@@ -60,7 +60,10 @@ export const Marketplace = () => {
   const fetchListings = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase.from('items').select('*');
+      const { data, error } = await supabase
+        .from('items')
+        .select('*, item_tags(*)')
+        .eq('item_tags.tag_id', 'unlisted');
 
       if (error) {
         throw error;

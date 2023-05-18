@@ -13,6 +13,8 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ApiResponse | { error: string }>
 ) {
+  console.log("req.body", req.body);
+
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
 
