@@ -29,7 +29,7 @@ export default async function handler(
         avatar_url: req.body.avatar,
         url: req.body.url,
       },
-      { ignoreDuplicates: false }
+      { ignoreDuplicates: false, onConflict: "external_unique_id" }
     );
 
     if (error) throw error;
