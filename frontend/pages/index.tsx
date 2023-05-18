@@ -16,7 +16,7 @@ const Home = () => {
           /> */}
 
           <div className="flex-1">
-            <h1 className="text-5xl font-bold">
+            <h1 className="text-5xl font-bold mt-10">
               Find and Install{" "}
               <span className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-pink-400 to-purple-600">
                 Unlisted
@@ -38,6 +38,14 @@ const Home = () => {
               className="btn btn-primary"
             >
               Get Chrome Extension
+            </a>
+            <a
+              href="https://airtable.com/shrnu7VEPLMTOD0XN?prefill_fldHbG1DXul2srMdo=unlisted"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-secondary ml-2"
+            >
+              List Plugin
             </a>
           </div>
           <div className="flex flex-1 w-full">
