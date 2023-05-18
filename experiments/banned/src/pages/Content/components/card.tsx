@@ -11,7 +11,9 @@ const Card: React.FC<CardProps> = ({ imageUrl, title, description, url }) => {
   const [copied, setCopied] = React.useState(false);
 
   const copyUrl = () => {
-    navigator.clipboard.writeText(url.replace(/["']/g, ''));
+    let link = new URL(url.replace(/["']/g, ''));
+    // console.log(link.hostname);
+    navigator.clipboard.writeText(link.hostname);
     setCopied(true);
   };
 

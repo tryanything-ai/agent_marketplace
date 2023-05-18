@@ -88,10 +88,10 @@ export const Marketplace = () => {
         return (
           <Card
             key={index}
-            imageUrl={item.avatar_url}
-            title={item.title}
-            description={item.description}
-            url={item.url}
+            imageUrl={item.items.avatar_url}
+            title={item.items.name}
+            description={item.items.description}
+            url={item.items.url}
           />
         );
       })}
