@@ -48,7 +48,7 @@ export default async function handler(
     if (tagsError) throw tagsError;
 
     //write_new_tags
-    const tagsArray = req.body.tags.split(",");
+    const tagsArray = req.body.tags;
 
     let tagsInsertArray = [];
 
