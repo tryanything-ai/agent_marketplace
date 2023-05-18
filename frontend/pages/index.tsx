@@ -25,7 +25,7 @@ const Home = () => {
             </h1>
             <p className="py-6">
               Plugins give ChatGPT{" "}
-              <span className="underline">superpowers</span>
+              <span className="underline">superpowers</span>{" "}
               {`but OpenAI won't
               list them all on their website. Use our chrome extension to
               install community created plugins that put ChatGPT in`}{" "}

@@ -21,7 +21,7 @@ const Layout = ({ children }: { children: any }) => {
           description: "AI Marketplace",
           images: [
             {
-              url: "https://qcuguzlfpjtyiloqtysz.supabase.co/storage/v1/object/public/random/ai%20plugins.png",
+              url: "https://qcuguzlfpjtyiloqtysz.supabase.co/storage/v1/object/public/random/unlisted.png",
               width: 1200,
               height: 630,
               alt: "Og Image Alt",

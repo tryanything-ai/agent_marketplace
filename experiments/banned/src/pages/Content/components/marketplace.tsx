@@ -64,7 +64,8 @@ export const Marketplace = () => {
       const { data, error } = await supabase
         .from('item_tags')
         .select('*, items (*)')
-        .eq('tag_id', 'unlisted');
+        .eq('tag_id', 'unlisted')
+        .limit(8); //TODO: make real solution
 
       if (error) {
         throw error;

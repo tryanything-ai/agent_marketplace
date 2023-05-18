@@ -10,7 +10,7 @@ window.addEventListener('load', function () {
     // Callback function to execute when mutations are observed
     const callback = function (mutationsList, observer) {
       const dialog = document.querySelectorAll('[role="dialog"]');
-      const ourButton = document.querySelector('#unverified');
+      const ourButton = document.querySelector('#unlisted');
 
       if (dialog && !ourButton) {
         //only check if we are not on the plug page.
@@ -44,9 +44,6 @@ function setDom(parent) {
 
   let paginationAnd = outer.children[2];
 
-  // const originalMarketplace = marketplace.cloneNode(true);
-  // const originalButtons = div.cloneNode(true);
-
   const button = document.createElement('button');
 
   button.classList.add(
@@ -56,10 +53,15 @@ function setDom(parent) {
     'focus:ring-0',
     'text-black/50'
   );
-  button.textContent = 'Unverified Plugins ✨';
-  button.style.border = '2px solid purple';
+  button.textContent = 'Unlisted Plugins ✨';
+  button.style.border = 'none';
+  button.style.outline = 'none';
+  button.style.color = 'white';
+  button.style.fontSize = '16px';
+  button.style.cursor = 'pointer';
+  button.style.background = 'linear-gradient(to right, #ec4899, #9333ea)';
 
-  button.id = 'unverified';
+  button.id = 'unlisted';
   button.classList.add('closed');
 
   //replace
@@ -72,9 +74,8 @@ function setDom(parent) {
       let buttons = div.querySelectorAll('button');
 
       for (const button of buttons) {
-        //add onclick handlers that will "un-remove the marketplace"
-
-        if (button.textContent.includes('Unverified Plugins ✨')) {
+        //add onclick handlers that will "un-remove the marketplace
+        if (button.textContent.includes('Unlisted Plugins ✨')) {
           //leave this button alone
         } else {
           button.style.display = 'none';
@@ -100,8 +101,6 @@ function setDom(parent) {
         container
       );
 
-      // marketplace.replaceWith(container);
-      // marketplace.appendChild(container);
       outer.insertBefore(container, paginationAnd);
       marketplace.style.display = 'none';
     } else {
@@ -116,7 +115,7 @@ function setDom(parent) {
 
         if (button.textContent.includes('Go Back')) {
           //leave this button alone
-          button.textContent = 'Unverified Plugins ✨';
+          button.textContent = 'Unlisted Plugins ✨';
           button.classList.remove('open');
           button.classList.add('closed');
         } else {
