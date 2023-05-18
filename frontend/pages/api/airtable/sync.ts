@@ -21,13 +21,16 @@ export default async function handler(
   if (token == null || token != AIRTABLE_SECRET) return res.status(401);
 
   try {
-    const { data, error } = await supabaseServer.from("items").upsert({
-      external_unique_id: req.body.airtable_id,
-      name: req.body.name,
-      description: req.body.description,
-      avatar_url: req.body.avatar,
-      url: req.body.url,
-    });
+    const { data, error } = await supabaseServer.from("items").upsert(
+      {
+        external_unique_id: req.body.airtable_id,
+        name: req.body.name,
+        description: req.body.description,
+        avatar_url: req.body.avatar,
+        url: req.body.url,
+      },
+      { ignoreDuplicates: false }
+    );
 
     if (error) throw error;
 
