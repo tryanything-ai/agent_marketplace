@@ -236,9 +236,16 @@ const Auth = () => {
   const [option, setOption] = useState<Options>(Options.signin);
   return (
     <div className="p-4 sm:p-6 sm:pt-4 flex flex-row">
-      <div className="flex-1 text-2xl">
-        Anything <span className="underline">Unverified </span>Plugins
-        Marketplace
+      <div className="flex-1">
+        <img
+          className="w-full"
+          style={{
+            height: '300px',
+          }}
+          src="https://qcuguzlfpjtyiloqtysz.supabase.co/storage/v1/object/public/random/anything-a.svg"
+        />
+        {/* Anything <span className="underline">Unverified </span>Plugins
+        Marketplace */}
         {/* <img
           src="https://qcuguzlfpjtyiloqtysz.supabase.co/storage/v1/object/public/random/anything.svg"
           alt="anything logo"
