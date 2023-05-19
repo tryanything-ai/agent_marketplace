@@ -1,12 +1,11 @@
 import React from 'react';
+import posthog from 'posthog-js';
 
 const Pagination = ({
-  count,
   pages,
   page,
   setPage,
 }: {
-  count: number;
   pages: number;
   page: number;
   setPage: (page: number) => void;
@@ -17,6 +16,7 @@ const Pagination = ({
         <button
           onClick={() => {
             if (page > 1) {
+              posthog.capture('pagination_prev');
               setPage(page - 1);
             }
           }}
@@ -43,7 +43,10 @@ const Pagination = ({
         {Array.from({ length: pages }, (_, index) => (
           <button
             key={index}
-            onClick={() => setPage(index + 1)}
+            onClick={() => {
+              posthog.capture('pagination_page', { page: index + 1 });
+              setPage(index + 1);
+            }}
             className={`text-sm whitespace-nowrap flex h-5 w-5 items-center justify-center ${
               page === index + 1 ? 'text-blue-60 dark:text-blue-600' : ''
             } hover:text-blue-600 dark:hover:text-blue-600`}
@@ -55,6 +58,7 @@ const Pagination = ({
         <button
           onClick={() => {
             if (page < pages) {
+              posthog.capture('pagination_next');
               setPage(page + 1);
             }
           }}

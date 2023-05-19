@@ -3,6 +3,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { supabase } from '../../../../utils/supabase';
+import posthog from 'posthog-js';
 
 enum Options {
   signin = 'signin',
@@ -31,6 +32,8 @@ const SignIn = () => {
 
   const onSubmit: SubmitHandler<FormData> = async ({ email, password }) => {
     try {
+      posthog.identify(email);
+      posthog.capture('sign_in');
       setLoading(true);
       console.log('email', email);
       console.log('password', password);
@@ -134,15 +137,17 @@ const SignUp = () => {
 
   const onSubmit: SubmitHandler<FormData> = async ({ email, password }) => {
     try {
+      posthog.identify(email);
+      posthog.capture('sign_up');
       setLoading(true);
       console.log('email', email);
       console.log('password', password);
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
-        options: {
-          emailRedirectTo: 'https://tryanything.com/chatpgt',
-        },
+        // options: {
+        //   emailRedirectTo: 'https://tryanything.com/chatpgt',
+        // },
       });
 
       if (error) {

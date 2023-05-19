@@ -22,7 +22,7 @@ window.addEventListener('load', function () {
       if (dialog && !ourButton) {
         //only check if we are not on the plug page.
         for (const div of document.querySelectorAll('button')) {
-          if (div.textContent.includes('All plugins')) {
+          if (div.textContent.includes('All')) {
             console.log('We See "All Plugins" button');
             setDom(div.parentNode);
           }
@@ -52,10 +52,6 @@ function setDom(parent) {
   let paginationAnd = outer.children[2];
   let pagination = paginationAnd.children[0];
 
-  let afterPagination = paginationAnd.children[1];
-
-  // pagination.style.backgroundColor = 'pink';
-
   const button = document.createElement('button');
 
   button.classList.add(
@@ -82,6 +78,8 @@ function setDom(parent) {
   //replace
   let pagination_container = document.createElement('div');
   pagination_container.id = 'pagination-container';
+
+  const addItemButton = document.createElement('button');
 
   button.onclick = async function () {
     if (button.classList.contains('closed')) {
@@ -123,6 +121,30 @@ function setDom(parent) {
 
       //Hide Native Pagination
       pagination.style.visibility = 'hidden';
+
+      //add listings
+
+      addItemButton.classList.add(
+        'btn',
+        'relative',
+        'btn-neutral',
+        'focus:ring-0',
+        'text-black/50'
+      );
+      addItemButton.textContent = 'List Your Plugin 🚀';
+      addItemButton.style.border = 'none';
+      addItemButton.style.outline = 'none';
+      addItemButton.style.color = 'white';
+      addItemButton.style.fontSize = '16px';
+      addItemButton.style.cursor = 'pointer';
+      // addItemButton.style.background = '#9333ea';
+      addItemButton.classList.add('add-listing');
+
+      addItemButton.onclick = function () {
+        window.open('https://airtable.com/shrnu7VEPLMTOD0XN', '_blank');
+        // window.location.href = 'https://airtable.com/shrnu7VEPLMTOD0XN';
+      };
+      div.appendChild(addItemButton);
     } else {
       //we are open so we need to close
       //Marketplace
@@ -145,6 +167,9 @@ function setDom(parent) {
           button.style.display = 'block';
         }
       }
+
+      //hide listing button
+      addItemButton.remove();
     }
   };
 

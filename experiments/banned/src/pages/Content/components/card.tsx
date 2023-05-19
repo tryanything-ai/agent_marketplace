@@ -1,16 +1,25 @@
 import React, { useState } from 'react';
+import posthog from 'posthog-js';
 
 interface CardProps {
   imageUrl: string;
   title: string;
   description: string;
   url: string;
+  id: string;
 }
 
-const Card: React.FC<CardProps> = ({ imageUrl, title, description, url }) => {
+const Card: React.FC<CardProps> = ({
+  imageUrl,
+  title,
+  description,
+  url,
+  id,
+}) => {
   const [copied, setCopied] = React.useState(false);
 
   const copyUrl = () => {
+    posthog.capture('copy_extension_url', { url, id, title });
     let link = new URL(url.replace(/["']/g, ''));
     // console.log(link.hostname);
     navigator.clipboard.writeText(link.hostname);

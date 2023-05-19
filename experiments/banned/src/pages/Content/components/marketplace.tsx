@@ -17,6 +17,7 @@ export const Marketplace = ({ count, pages, listings }: any) => {
           return (
             <Card
               key={index}
+              id={item.items.id}
               imageUrl={item.items.avatar_url}
               title={item.items.name}
               description={item.items.description}
@@ -26,7 +27,7 @@ export const Marketplace = ({ count, pages, listings }: any) => {
         })}
       </div>
       {/* Pagination */}
-      <Pagination count={count} pages={pages} page={page} setPage={setPage} />
+      <Pagination pages={pages} page={page} setPage={setPage} />
     </div>
   );
 };
