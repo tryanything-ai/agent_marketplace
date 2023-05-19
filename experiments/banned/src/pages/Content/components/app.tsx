@@ -6,9 +6,8 @@ import { supabase } from '../../../../utils/supabase';
 import Auth from './auth';
 import { Marketplace } from './marketplace';
 
-export const App = () => {
+export const App = ({ count, pages, listings, page }: any) => {
   const [session, setSession] = useState<Session | null>(null);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -27,6 +26,13 @@ export const App = () => {
   if (!session) {
     return <Auth />;
   } else {
-    return <Marketplace />;
+    return (
+      <Marketplace
+        count={count}
+        pages={pages}
+        page={page}
+        listings={listings}
+      />
+    );
   }
 };

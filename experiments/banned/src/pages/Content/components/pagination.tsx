@@ -1,17 +1,36 @@
 import React from 'react';
 
-const Pagination = () => {
+const Pagination = ({
+  count,
+  pages,
+  page,
+  setPage,
+}: {
+  count: number;
+  pages: number;
+  page: number;
+  setPage: (page: number) => void;
+}) => {
   return (
     <div className="flex flex-1 flex-grow justify-start max-lg:justify-center">
       <div className="flex flex-wrap gap-2 text-sm text-black/60 dark:text-white/70">
-        <button className="text-sm text-black/70 dark:text-white/70 whitespace-nowrap cursor-default flex items-center opacity-50">
+        <button
+          onClick={() => {
+            if (page > 1) {
+              setPage(page - 1);
+            }
+          }}
+          className={`text-sm text-black/70 dark:text-white/70 whitespace-nowrap cursor-default flex items-center ${
+            page === 1 ? 'opacity-50' : ''
+          }`}
+        >
           <svg
             stroke="currentColor"
             fill="none"
-            stroke-width="2"
+            strokeWidth="2"
             viewBox="0 0 24 24"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             className="h-4 w-4"
             height="1em"
             width="1em"
@@ -21,54 +40,36 @@ const Pagination = () => {
           </svg>
           Prev
         </button>
-        <button className="text-sm whitespace-nowrap flex h-5 w-5 items-center justify-center text-blue-600 hover:text-blue-600 dark:text-blue-600 dark:hover:text-blue-600">
-          1
-        </button>
-        <button className="text-sm text-black/70 dark:text-white/70 whitespace-nowrap hover:text-black/50 dark:hover:text-white/50 flex h-5 w-5 items-center justify-center">
-          2
-        </button>
-        <button className="text-sm text-black/70 dark:text-white/70 whitespace-nowrap hover:text-black/50 dark:hover:text-white/50 flex h-5 w-5 items-center justify-center">
-          3
-        </button>
-        <button className="text-sm text-black/70 dark:text-white/70 whitespace-nowrap hover:text-black/50 dark:hover:text-white/50 flex h-5 w-5 items-center justify-center">
-          4
-        </button>
-        <button className="text-sm text-black/70 dark:text-white/70 whitespace-nowrap hover:text-black/50 dark:hover:text-white/50 flex h-5 w-5 items-center justify-center">
-          5
-        </button>
-        <button className="text-sm text-black/70 dark:text-white/70 whitespace-nowrap hover:text-black/50 dark:hover:text-white/50 flex h-5 w-5 items-center justify-center">
-          6
-        </button>
-        <button className="text-sm text-black/70 dark:text-white/70 whitespace-nowrap hover:text-black/50 dark:hover:text-white/50 flex h-5 w-5 items-center justify-center">
-          7
-        </button>
-        <button className="text-sm text-black/70 dark:text-white/70 whitespace-nowrap hover:text-black/50 dark:hover:text-white/50 flex h-5 w-5 items-center justify-center">
-          8
-        </button>
-        <button className="text-sm text-black/70 dark:text-white/70 whitespace-nowrap hover:text-black/50 dark:hover:text-white/50 flex h-5 w-5 items-center justify-center">
-          9
-        </button>
-        <button className="text-sm text-black/70 dark:text-white/70 whitespace-nowrap hover:text-black/50 dark:hover:text-white/50 flex h-5 w-5 items-center justify-center">
-          10
-        </button>
-        <button className="text-sm text-black/70 dark:text-white/70 whitespace-nowrap hover:text-black/50 dark:hover:text-white/50 flex h-5 w-5 items-center justify-center">
-          11
-        </button>
-        <button className="text-sm text-black/70 dark:text-white/70 whitespace-nowrap hover:text-black/50 dark:hover:text-white/50 flex h-5 w-5 items-center justify-center">
-          12
-        </button>
-        <button className="text-sm text-black/70 dark:text-white/70 whitespace-nowrap hover:text-black/50 dark:hover:text-white/50 flex h-5 w-5 items-center justify-center">
-          13
-        </button>
-        <button className="text-sm text-black/70 dark:text-white/70 whitespace-nowrap hover:text-black/50 dark:hover:text-white/50 flex items-center">
+        {Array.from({ length: pages }, (_, index) => (
+          <button
+            key={index}
+            onClick={() => setPage(index + 1)}
+            className={`text-sm whitespace-nowrap flex h-5 w-5 items-center justify-center ${
+              page === index + 1 ? 'text-blue-60 dark:text-blue-600' : ''
+            } hover:text-blue-600 dark:hover:text-blue-600`}
+          >
+            {index + 1}
+          </button>
+        ))}
+
+        <button
+          onClick={() => {
+            if (page < pages) {
+              setPage(page + 1);
+            }
+          }}
+          className={`text-sm text-black/70 dark:text-white/70 whitespace-nowrap hover:text-black/50 dark:hover:text-white/50 flex items-center ${
+            page === pages ? 'opacity-50' : ''
+          }`}
+        >
           Next
           <svg
             stroke="currentColor"
             fill="none"
-            stroke-width="2"
+            strokeWidth="2"
             viewBox="0 0 24 24"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             className="h-4 w-4"
             height="1em"
             width="1em"
