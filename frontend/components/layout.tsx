@@ -46,6 +46,9 @@ const Layout = ({ children }: { children: any }) => {
           <Link href="/experiments/agent_pay" className="link link-hover">
             Agent To Agent Payments
           </Link>
+          <Link href="/experiments/extension" className="link link-hover">
+            ChatGPT Plugin Store Extension
+          </Link>
           {/* <a className="link link-hover">Marketing</a>
           <a className="link link-hover">Advertisement</a> */}
         </div>

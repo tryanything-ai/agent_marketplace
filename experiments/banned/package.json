@@ -1,11 +1,11 @@
 {
-  "name": "chrome-extension-boilerplate-react",
-  "version": "5.0.4",
-  "description": "A chrome extension boilerplate built with React 18, Webpack 5, and Webpack Dev Server 4",
+  "name": "unlisted_chatgpt",
+  "version": "0.0.0.1",
+  "description": "Find and Install Unlisted ChatGPT Plugins inside ChatGPT",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lxieyang/chrome-extension-boilerplate-react.git"
+    "url": "https://github.com/anything-protocol/agent_marketplace/tree/main/experiments/banned"
   },
   "scripts": {
     "build": "node utils/build.js",
