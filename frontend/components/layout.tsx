@@ -18,10 +18,10 @@ const Layout = ({ children }: { children: any }) => {
         title="Anything"
         openGraph={{
           title: "Anything",
-          description: "AI Marketplace",
+          description: "AI Automation",
           images: [
             {
-              url: "https://qcuguzlfpjtyiloqtysz.supabase.co/storage/v1/object/public/random/unlisted.png",
+              url: "https://qcuguzlfpjtyiloqtysz.supabase.co/storage/v1/object/public/random/anything-wysiwyg.png",
               width: 1200,
               height: 630,
               alt: "Og Image Alt",
