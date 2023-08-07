@@ -22,7 +22,7 @@ const Navbar = () => {
       <div className="flex-none">
         <ul className="menu menu-horizontal px-1">
           <a
-            href="https://github.com/anything-protocol/agent_marketplace"
+            href="https://github.com/tryanything-ai/anything"
             className="mr-4 my-auto"
           >
             <img

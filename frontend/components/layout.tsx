@@ -55,7 +55,7 @@ const Layout = ({ children }: { children: any }) => {
         <div>
           <span className="footer-title">Anything</span>
           <a
-            href="https://github.com/orgs/anything-protocol/repositories"
+            href="https://github.com/tryanything-ai/anything"
             target="_blank"
             rel="noopener noreferrer"
             className="link link-hover"
