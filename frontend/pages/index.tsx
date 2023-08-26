@@ -1,5 +1,6 @@
 import Layout from "@/components/layout";
 import Image from "next/image";
+import { useEffect, useState} from "react";
 
 import { Database } from "../utils/database.types";
 type Item = Database["public"]["Tables"]["items"]["Row"];
@@ -7,6 +8,19 @@ import { supabaseServer } from "../utils/supabaseServer";
 import Carousel from "@/components/heroCarousel";
 
 const Home = () => {
+
+  const [referrerDomain, setReferrerDomain] = useState<string>("");
+	// Effect to run when the component mounts 
+    useEffect(() => { 
+      // Get the referrer URL 
+      const referrerUrl = document.referrer; // Extract the domain from the URL 
+      if (referrerUrl) {
+        const url = new URL(referrerUrl);
+        const domain = url.hostname; 
+      // Update the state variable 
+      setReferrerDomain(domain); } }, 
+      []); 
+  
   return (
     <Layout>
       <div className="hero min-h-screen mt-6">
@@ -34,7 +48,7 @@ const Home = () => {
             </p> */}
             <p className="py-6" />
             <a
-              href="https://airtable.com/shrfQYBtcoUqYNylu?prefill_fldVLaD0gtTpY1jxP=wysiwyg&hide_fldVLaD0gtTpY1jxP=true"
+              href={`https://airtable.com/shrfQYBtcoUqYNylu?prefill_fldVLaD0gtTpY1jxP=wysiwyg&hide_fldVLaD0gtTpY1jxP=true&prefill_referring_domain=${referrerDomain}&hide_referring_domain=true`}
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-primary"
